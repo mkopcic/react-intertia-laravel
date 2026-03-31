@@ -68,6 +68,27 @@ php artisan wayfinder:generate
 php artisan pint
 ```
 
+## Lokalizacija
+
+Aplikacija koristi **hrvatski** (`hr`) kao zadani jezik.
+
+- `lang/hr/` — PHP prijevodi (auth, validation, passwords, pagination)
+- `lang/hr.json` — JSON prijevodi (Fortify, inline poruke)
+- Paket: `laravel-lang/common`
+
+```bash
+# Dodaj novi jezik
+php artisan lang:add {locale}
+
+# Ažuriraj prijevode
+php artisan lang:update
+```
+
+## Error stranice
+
+Publišane u `resources/views/errors/`:
+`401`, `402`, `403`, `404`, `419`, `429`, `500`, `503`
+
 ## Testovi
 
 ```bash

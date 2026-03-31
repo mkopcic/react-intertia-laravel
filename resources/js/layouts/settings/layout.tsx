@@ -32,11 +32,6 @@ const sidebarNavItems: NavItem[] = [
         href: editAppearance(),
         icon: null,
     },
-    {
-        title: 'Environment',
-        href: '/log-viewer',
-        icon: null,
-    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
@@ -73,6 +68,16 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                 </Link>
                             </Button>
                         ))}
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            className="w-full justify-start"
+                            asChild
+                        >
+                            <a href="/log-viewer" target="_blank" rel="noopener noreferrer">
+                                Log Viewer
+                            </a>
+                        </Button>
                     </nav>
                 </aside>
 

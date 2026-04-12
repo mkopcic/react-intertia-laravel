@@ -45,7 +45,10 @@ class HandleInertiaRequests extends Middleware
             'info' => $request->session()->get('info'),
         ];
 
-        Log::info('HandleInertiaRequests::share - Flash messages', $flashData);
+        // Log only when there are actual flash messages
+        if (array_filter($flashData)) {
+            Log::info('HandleInertiaRequests::share - Flash messages', $flashData);
+        }
 
         return [
             ...parent::share($request),

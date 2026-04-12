@@ -130,6 +130,30 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
+
+    /* Digital Architect - Deep Space Palette */
+    --surface: #060e20;
+    --surface-container-low: #06122d;
+    --surface-container: #05183c;
+    --surface-container-high: #031d4b;
+    --surface-container-highest: #00225a;
+    --surface-container-lowest: #000000;
+    --surface-dim: #060e20;
+    --surface-bright: #002867;
+
+    --architect-primary: #bdc2ff;
+    --architect-primary-dim: #acb3ff;
+    --architect-primary-container: #2f3aa3;
+    --architect-on-primary: #28329c;
+
+    --architect-secondary: #06b77f;
+    --architect-secondary-dim: #00b47d;
+    --architect-secondary-container: #00452d;
+
+    --architect-on-surface: #dee5ff;
+    --architect-on-surface-variant: #91aaeb;
+    --architect-outline: #5b74b1;
+    --architect-outline-variant: #2b4680;
 }
 
 @layer base {

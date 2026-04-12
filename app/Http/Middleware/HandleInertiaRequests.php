@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,12 +38,22 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        $flashData = [
+            'success' => $request->session()->get('success'),
+            'error' => $request->session()->get('error'),
+            'warning' => $request->session()->get('warning'),
+            'info' => $request->session()->get('info'),
+        ];
+
+        Log::info('HandleInertiaRequests::share - Flash messages', $flashData);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
                 'user' => $user,
             ],
+            'flash' => $flashData,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'currentTeam' => fn () => $user?->currentTeam ? $user->toUserTeam($user->currentTeam) : null,
             'teams' => fn () => $user?->toUserTeams(includeCurrent: true) ?? [],

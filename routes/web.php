@@ -11,8 +11,10 @@ Route::inertia('/', 'welcome', [
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
+    ->scopeBindings()
     ->group(function () {
         Route::inertia('dashboard', 'dashboard')->name('dashboard');
+        Route::resource('users', \App\Http\Controllers\UserController::class);
     });
 
 Route::middleware(['auth'])->group(function () {

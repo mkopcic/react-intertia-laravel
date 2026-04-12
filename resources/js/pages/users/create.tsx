@@ -114,7 +114,7 @@ export default function Create() {
     );
 }
 
-Create.layout = {
+Create.layout = (props: { currentTeam: { slug: string } | null }) => ({
     breadcrumbs: [
         {
             title: 'Dashboard',
@@ -122,11 +122,11 @@ Create.layout = {
         },
         {
             title: 'Korisnici',
-            href: index.url(),
+            href: props.currentTeam ? index.url({ current_team: props.currentTeam.slug }) : '#',
         },
         {
             title: 'Novi korisnik',
-            href: create.url(),
+            href: props.currentTeam ? create.url({ current_team: props.currentTeam.slug }) : '#',
         },
     ],
-};
+});

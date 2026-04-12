@@ -37,7 +37,7 @@ export default function Edit({ user }: Props) {
 
     return (
         <>
-            <Head title="Uredi korisnika" />
+            <Head title={`Uredi korisnika - ${user.name}`} />
 
             <h1 className="sr-only">Uredi korisnika</h1>
 
@@ -120,7 +120,7 @@ export default function Edit({ user }: Props) {
     );
 }
 
-Edit.layout = (props: { user: User }) => ({
+Edit.layout = (props: { user: User; currentTeam: { slug: string } | null }) => ({
     breadcrumbs: [
         {
             title: 'Dashboard',
@@ -128,11 +128,11 @@ Edit.layout = (props: { user: User }) => ({
         },
         {
             title: 'Korisnici',
-            href: index.url(),
+            href: props.currentTeam ? index.url({ current_team: props.currentTeam.slug }) : '#',
         },
         {
             title: 'Uredi korisnika',
-            href: edit.url({ user: props.user.id }),
+            href: props.currentTeam ? edit.url({ current_team: props.currentTeam.slug, user: props.user.id }) : '#',
         },
     ],
 });

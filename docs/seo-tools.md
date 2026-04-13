@@ -104,13 +104,34 @@ Schema::person()->name('Marijan Kopčić')->jobTitle(...)->knowsAbout([...])->sa
 
 ## Google Analytics 4
 
-- **Rješenje:** `VITE_GA_MEASUREMENT_ID` env varijabla
-- **Implementacija:** GTM snippet direktno u React (`import.meta.env.VITE_GA_MEASUREMENT_ID`)
-- **Status:** 🔧 env varijabla pripremljena, snippet nije dodan (nema GA4 ID-a)
+- **Status:** ✅ aktivno
+- **Rješenje:** gtag.js snippet direktno u `resources/views/app.blade.php` (server-side, bez paketa)
+- **Uvjetno renderiranje:** snippet se prikazuje samo ako je `VITE_GA_MEASUREMENT_ID` popunjen u `.env`
+
+### GA4 Stream podaci
+
+| Polje | Vrijednost |
+|---|---|
+| Naziv streama | Moja web lokacija |
+| URL | https://marijankopcic.from.hr |
+| ID streama | 14361478204 |
+| ID mjerenja | `G-TJEYNEHL3P` |
 
 ```env
-VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+VITE_GA_MEASUREMENT_ID=G-TJEYNEHL3P
 ```
+
+### Enhanced Measurement (automatski uključeno)
+- Prikazi stranice ✅
+- Pomicanja ✅
+- Odlazni klikovi ✅
+- + još 4 događaja
+
+### Napomena za SPA (Inertia.js)
+GA4 Enhanced Measurement automatski prati Inertia navigacije putem `history.pushState` — ne treba dodatna konfiguracija za SPA page_view tracking.
+
+### Oprez: "Prikupljanje podataka nije aktivno"
+Normalna poruka za novi GA4 property. Google treba do 48 sati za prve podatke. Snippet je ispravno postavljen — provjeri Realtime izvješće u GA4 za trenutnu potvrdu.
 
 ---
 

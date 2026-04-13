@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;
@@ -26,7 +29,7 @@ class WelcomeController extends Controller
             ->url(config('app.url'))
             ->knowsAbout(['Laravel', 'PHP', 'React', 'TypeScript', 'DevOps', 'Docker', 'AI/MCP'])
             ->description(
-                'Full-stack developer and DevOps engineer with 8+ years of experience '
+                'Full-stack developer and DevOps engineer with 10+ years of experience '
                 .'building production-grade web applications, SaaS platforms, and cloud infrastructure.'
             )
             ->sameAs(array_filter([
@@ -35,14 +38,31 @@ class WelcomeController extends Controller
                 env('SOCIAL_FACEBOOK', ''),
             ]));
 
+        $seoTitle = 'Marijan Kopčić | Lead Laravel & DevOps Engineer';
+        $seoDescription = '10+ years building SaaS platforms, AI integrations, and cloud infrastructure. '
+            .'Available for remote Laravel & DevOps projects.';
+        $seoUrl = config('app.url');
+
+        SEOMeta::setTitle($seoTitle)
+            ->setDescription($seoDescription)
+            ->setCanonical($seoUrl);
+
+        OpenGraph::setTitle($seoTitle)
+            ->setDescription($seoDescription)
+            ->setUrl($seoUrl)
+            ->addProperty('type', 'website');
+
+        TwitterCard::setTitle($seoTitle)
+            ->setDescription($seoDescription)
+            ->setType('summary_large_image');
+
         return Inertia::render('welcome', [
             'canRegister' => Features::enabled(Features::registration()),
             'honeypot' => $this->honeypot->toArray(),
             'seo' => [
-                'title' => 'Marijan Kopčić | Lead Laravel & DevOps Engineer',
-                'description' => '8+ years building SaaS platforms, AI integrations, and cloud infrastructure. '
-                    .'Available for remote Laravel & DevOps projects.',
-                'url' => config('app.url'),
+                'title' => $seoTitle,
+                'description' => $seoDescription,
+                'url' => $seoUrl,
             ],
             'schemaJson' => json_encode([
                 '@context' => 'https://schema.org',

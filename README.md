@@ -8,7 +8,7 @@ Laravel 13 + React 19 + Inertia.js SPA aplikacija.
 
 | Sloj | Tech |
 |---|---|
-| Backend | Laravel 13, PHP 8.3 |
+| Backend | Laravel 13, PHP 8.4 |
 | Frontend | React 19, TypeScript, Inertia.js v3 |
 | Stilovi | Tailwind CSS v4, shadcn/ui |
 | Auth | Laravel Fortify (2FA podrška) |
@@ -19,6 +19,10 @@ Laravel 13 + React 19 + Inertia.js SPA aplikacija.
 | Backup | spatie/laravel-backup |
 | Log Viewer | opcodesio/log-viewer (`/log-viewer`) |
 | Debug | barryvdh/laravel-debugbar |
+| SEO | artesaos/seotools (meta, OG, Twitter) |
+| Schema.org | spatie/schema-org (JSON-LD) |
+| Sitemap | spatie/laravel-sitemap |
+| Analytics | Google Analytics 4 (`G-TJEYNEHL3P`) |
 
 ## Struktura projekta
 
@@ -98,6 +102,22 @@ php artisan migrate:fresh --seed
 |---|---|
 | Aplikacija | https://marijankopcic.from.hr |
 | Log Viewer | https://marijankopcic.from.hr/log-viewer |
+| Sitemap | https://marijankopcic.from.hr/sitemap.xml |
+| Google Search Console | https://search.google.com/search-console |
+| Google Analytics | https://analytics.google.com |
+
+## SEO & Analytics
+
+| Komponenta | Status | Detalji |
+|---|---|---|
+| Meta tagovi (server-side) | ✅ | `artesaos/seotools` → `app.blade.php` |
+| OpenGraph + Twitter Cards | ✅ | Generirani server-side |
+| Google verificiacija | ✅ | DNS TXT + meta tag |
+| XML Sitemap | ✅ | `/sitemap.xml`, dodan u Search Console |
+| Schema.org JSON-LD | ✅ | Person + WebSite na hostu |
+| Google Analytics 4 | ✅ | `G-TJEYNEHL3P`, Enhanced Measurement |
+| robots.txt | ✅ | Sitemap naveden |
+| Custom error stranice | ✅ | 403, 404, 429, 500, 503 — dark tema |
 
 ## Testovi
 

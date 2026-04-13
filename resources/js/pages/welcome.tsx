@@ -26,12 +26,10 @@ export default function Welcome({
     canRegister = true,
     honeypot,
     seo,
-    schemaJson,
 }: {
     canRegister?: boolean;
     honeypot: HoneypotData;
     seo: SeoData;
-    schemaJson: string;
 }) {
     const { auth, currentTeam } = usePage().props;
     const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
@@ -73,7 +71,6 @@ export default function Welcome({
                 <meta name="twitter:title" content={seo.title} />
                 <meta name="twitter:description" content={seo.description} />
                 <link rel="canonical" href={seo.url} />
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link

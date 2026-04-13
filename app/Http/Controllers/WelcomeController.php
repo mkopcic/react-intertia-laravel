@@ -43,18 +43,20 @@ class WelcomeController extends Controller
             .'Available for remote Laravel & DevOps projects.';
         $seoUrl = config('app.url');
 
-        SEOMeta::setTitle($seoTitle)
+        SEOMeta::setTitle($seoTitle, false)
             ->setDescription($seoDescription)
             ->setCanonical($seoUrl);
 
         OpenGraph::setTitle($seoTitle)
             ->setDescription($seoDescription)
             ->setUrl($seoUrl)
-            ->addProperty('type', 'website');
+            ->addProperty('type', 'website')
+            ->addImage($seoUrl.'/og-image.jpg');
 
         TwitterCard::setTitle($seoTitle)
             ->setDescription($seoDescription)
-            ->setType('summary_large_image');
+            ->setType('summary_large_image')
+            ->addValue('image', $seoUrl.'/og-image.jpg');
 
         return Inertia::render('welcome', [
             'canRegister' => Features::enabled(Features::registration()),

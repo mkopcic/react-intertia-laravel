@@ -5,13 +5,26 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Mail\DocsMail;
 use App\Http\Middleware\EnsureTeamMembership;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
+Route::redirect('/register', '/login');
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::redirect('/sitemap', '/sitemap.xml');
+
+// Test ruta — samo local/dev
+Route::get('/email-docs', function () {
+    $to = config('mail.from.address');
+    Mail::to($to)->send(new DocsMail());
+
+    return 'Docs mail poslan na ' . $to;
+})->middleware('auth');
 
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware(ProtectAgainstSpam::class)

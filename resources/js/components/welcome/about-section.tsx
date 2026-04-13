@@ -34,7 +34,7 @@ export default function AboutSection() {
                             <div className="text-xs text-[#91aaeb] uppercase tracking-wider">Servers</div>
                         </div>
                         <div className="space-y-2">
-                            <div className="text-3xl font-['Manrope'] font-bold text-[#bdc2ff]">8+</div>
+                            <div className="text-3xl font-['Manrope'] font-bold text-[#bdc2ff]">10+</div>
                             <div className="text-xs text-[#91aaeb] uppercase tracking-wider">Years</div>
                         </div>
                     </div>

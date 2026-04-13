@@ -32,6 +32,7 @@ class WelcomeController extends Controller
             ->sameAs(array_filter([
                 env('SOCIAL_GITHUB', ''),
                 env('SOCIAL_LINKEDIN', ''),
+                env('SOCIAL_FACEBOOK', ''),
             ]));
 
         return Inertia::render('welcome', [

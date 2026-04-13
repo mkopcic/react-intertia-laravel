@@ -1,4 +1,4 @@
-import { Code2, Cloud, Smartphone, Database, Palette, Activity, Shield } from 'lucide-react';
+import { Code2, Cloud, Smartphone, Database, Palette, Activity, Shield, Brain, Network } from 'lucide-react';
 
 export default function TechStackBento() {
     return (
@@ -16,6 +16,7 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">PHP 8.4</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Alpine.js</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">SOLID</span>
                             </div>
                         </div>
@@ -31,6 +32,9 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Docker</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">LXC</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">KVM</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Proxmox</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Hetzner</span>
                             </div>
                         </div>
@@ -51,6 +55,9 @@ export default function TechStackBento() {
                                 <div className="flex items-center gap-2 text-xs font-bold text-[#dee5ff]">
                                     <span className="w-1.5 h-1.5 rounded-full bg-[#06b77f]"></span> Kotlin
                                 </div>
+                                <div className="flex items-center gap-2 text-xs font-bold text-[#dee5ff]">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#06b77f]"></span> NativePHP
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,6 +72,8 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">PostgreSQL</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">MySQL</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">SQLite</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Redis</span>
                             </div>
                         </div>
@@ -80,6 +89,8 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">React 19</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Vue</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Livewire</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Tailwind</span>
                             </div>
                         </div>
@@ -108,6 +119,10 @@ export default function TechStackBento() {
                             <p className="text-sm text-[#91aaeb] leading-relaxed mb-4">
                                 Production-grade monitoring, alerting, and zero-downtime deployment strategies.
                             </p>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Grafana</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Prometheus</span>
+                            </div>
                             <div className="h-1.5 w-full bg-[#00225a] rounded-full overflow-hidden">
                                 <div className="h-full bg-[#acb3ff] w-[98%]"></div>
                             </div>
@@ -124,7 +139,41 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">GitHub Actions</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Laravel Cloud</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Forge</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* AI & MCP */}
+                    <div className="bg-[#05183c] p-8 rounded-2xl flex flex-col justify-between border border-transparent hover:border-[#bdc2ff]/20 transition-all min-h-[280px]">
+                        <Brain className="text-[#bdc2ff] h-10 w-10" />
+                        <div>
+                            <div className="text-2xl font-bold font-['Manrope'] mb-3 text-[#dee5ff]">AI & MCP</div>
+                            <p className="text-sm text-[#91aaeb] leading-relaxed mb-4">
+                                Building intelligent agents and LLM-powered features using Model Context Protocol directly into production apps.
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">MCP</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">LLM</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">AI Integration</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Networking */}
+                    <div className="bg-[#05183c] p-8 rounded-2xl flex flex-col justify-between border border-transparent hover:border-[#06b77f]/20 transition-all min-h-[280px]">
+                        <Network className="text-[#06b77f] h-10 w-10" />
+                        <div>
+                            <div className="text-2xl font-bold font-['Manrope'] mb-3 text-[#dee5ff]">Networking</div>
+                            <p className="text-sm text-[#91aaeb] leading-relaxed mb-4">
+                                VLANs, firewalls, reverse proxies, and VPN setup across enterprise and cloud environments.
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Nginx</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">WireGuard</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">iptables</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">VPN</span>
                             </div>
                         </div>
                     </div>

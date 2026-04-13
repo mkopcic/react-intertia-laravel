@@ -1,13 +1,13 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 import AboutSection from '@/components/welcome/about-section';
 import ContactSection from '@/components/welcome/contact-section';
 import FeaturedProjects from '@/components/welcome/featured-projects';
 import HeroSection from '@/components/welcome/hero-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login /*, register */ } from '@/routes';
 
 interface HoneypotData {
     enabled: boolean;
@@ -34,11 +34,35 @@ export default function Welcome({
     schemaJson: string;
 }) {
     const { auth, currentTeam } = usePage().props;
+    const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
     const dashboardUrl = currentTeam ? dashboard(currentTeam.slug) : '/';
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [showFlash, setShowFlash] = useState(false);
+
+    useEffect(() => {
+        if (flash?.success || flash?.error) {
+            setShowFlash(true);
+            const timer = setTimeout(() => setShowFlash(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [flash]);
 
     return (
         <>
+            {showFlash && flash?.success && (
+                <div className="fixed top-4 left-1/2 z-[9999] -translate-x-1/2 flex items-center gap-3 rounded-xl border border-[#06b77f]/40 bg-[#05183c] px-6 py-4 text-[#06b77f] shadow-2xl shadow-black/40 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <CheckCircle size={20} />
+                    <span className="font-medium">{flash.success}</span>
+                    <button onClick={() => setShowFlash(false)} className="ml-2 text-[#06b77f]/60 hover:text-[#06b77f]"><X size={16} /></button>
+                </div>
+            )}
+            {showFlash && flash?.error && (
+                <div className="fixed top-4 left-1/2 z-[9999] -translate-x-1/2 flex items-center gap-3 rounded-xl border border-red-500/40 bg-[#05183c] px-6 py-4 text-red-400 shadow-2xl shadow-black/40 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <XCircle size={20} />
+                    <span className="font-medium">{flash.error}</span>
+                    <button onClick={() => setShowFlash(false)} className="ml-2 text-red-400/60 hover:text-red-400"><X size={16} /></button>
+                </div>
+            )}
             <Head title={seo.title}>
                 <meta name="description" content={seo.description} />
                 <meta property="og:title" content={seo.title} />
@@ -104,12 +128,12 @@ export default function Welcome({
                                 <>
                                     <Link
                                         href={login()}
-                                        className="text-[#91aaeb] hover:text-[#06b77f] transition-colors duration-300 px-3 py-1.5 text-sm flex items-center gap-1.5"
+                                        className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
                                     >
                                         <LogIn size={16} />
                                         Log in
                                     </Link>
-                                    {canRegister && (
+                                    {/* canRegister && (
                                         <Link
                                             href={register()}
                                             className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
@@ -117,7 +141,7 @@ export default function Welcome({
                                             <UserPlus size={16} />
                                             Register
                                         </Link>
-                                    )}
+                                    ) */}
                                 </>
                             )}
                         </div>
@@ -173,12 +197,12 @@ export default function Welcome({
                                         <>
                                             <Link
                                                 href={login()}
-                                                className="flex items-center justify-center gap-2 w-full text-[#91aaeb] hover:text-[#06b77f] px-4 py-2 rounded-lg border border-[#5b74b1]/30 text-sm"
+                                                className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
                                             >
                                                 <LogIn size={18} />
                                                 Log in
                                             </Link>
-                                            {canRegister && (
+                                            {/* canRegister && (
                                                 <Link
                                                     href={register()}
                                                     className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
@@ -186,7 +210,7 @@ export default function Welcome({
                                                     <UserPlus size={18} />
                                                     Register
                                                 </Link>
-                                            )}
+                                            ) */}
                                         </>
                                     )}
                                 </div>

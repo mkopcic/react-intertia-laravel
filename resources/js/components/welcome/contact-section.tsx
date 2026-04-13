@@ -1,5 +1,5 @@
-import { useForm, usePage } from '@inertiajs/react';
-import { CheckCircle, Send, XCircle } from 'lucide-react';
+import { useForm } from '@inertiajs/react';
+import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,9 +17,7 @@ interface Props {
 }
 
 export default function ContactSection({ honeypot }: Props) {
-    const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
-
-    const { data, setData, post, processing, errors, reset, wasSuccessful } = useForm<{
+    const { data, setData, post, processing, errors, reset } = useForm<{
         name: string;
         email: string;
         message: string;
@@ -51,20 +49,7 @@ export default function ContactSection({ honeypot }: Props) {
                     </p>
                 </div>
 
-                {flash?.success && (
-                    <div className="mb-6 flex items-center gap-3 rounded-xl border border-[#06b77f]/30 bg-[#06b77f]/10 px-5 py-4 text-[#06b77f]">
-                        <CheckCircle size={20} />
-                        <span>{flash.success}</span>
-                    </div>
-                )}
-
-                {flash?.error && (
-                    <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-red-400">
-                        <XCircle size={20} />
-                        <span>{flash.error}</span>
-                    </div>
-                )}
-
+                {/* Honeypot fields — hidden from humans, visible to bots */}
                 <div className="bg-[#05183c] rounded-2xl p-8 md:p-12 border border-[#2b4680]/20 shadow-2xl">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Honeypot fields — hidden from humans, visible to bots */}
@@ -160,13 +145,13 @@ export default function ContactSection({ honeypot }: Props) {
                 <div className="mt-12 text-center">
                     <p className="text-[#91aaeb] text-sm">
                         Or reach out directly at{' '}
-                        <a href="mailto:hello@example.com" className="text-[#bdc2ff] hover:text-[#acb3ff] font-semibold">
-                            hello@example.com
+                        <a href="mailto:info@marijankopcic.from.hr" className="text-[#bdc2ff] hover:text-[#acb3ff] font-semibold">
+                            info@marijankopcic.from.hr
                         </a>
                     </p>
                     <div className="flex items-center justify-center gap-6 mt-6">
                         <a 
-                            href="https://github.com" 
+                            href="https://github.com/mkopcic" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
@@ -175,7 +160,7 @@ export default function ContactSection({ honeypot }: Props) {
                         </a>
                         <span className="text-[#2b4680]">•</span>
                         <a 
-                            href="https://linkedin.com" 
+                            href="https://www.linkedin.com/in/marijan-kopcic/" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
@@ -184,12 +169,12 @@ export default function ContactSection({ honeypot }: Props) {
                         </a>
                         <span className="text-[#2b4680]">•</span>
                         <a 
-                            href="https://twitter.com" 
+                            href="https://www.facebook.com/marijan.kopcic/" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
                         >
-                            Twitter
+                            Facebook
                         </a>
                     </div>
                 </div>

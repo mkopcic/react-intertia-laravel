@@ -1,21 +1,42 @@
-import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { useForm, usePage } from '@inertiajs/react';
+import { CheckCircle, Send, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { store } from '@/actions/App/Http/Controllers/ContactController';
 
-export default function ContactSection() {
-    const [formData, setFormData] = useState({
+interface HoneypotData {
+    enabled: boolean;
+    nameFieldName: string;
+    validFromFieldName: string;
+    encryptedValidFrom: string;
+}
+
+interface Props {
+    honeypot: HoneypotData;
+}
+
+export default function ContactSection({ honeypot }: Props) {
+    const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
+
+    const { data, setData, post, processing, errors, reset, wasSuccessful } = useForm<{
+        name: string;
+        email: string;
+        message: string;
+        [key: string]: string;
+    }>({
         name: '',
         email: '',
-        message: ''
+        message: '',
+        [honeypot.nameFieldName]: '',
+        [honeypot.validFromFieldName]: honeypot.encryptedValidFrom,
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Implementirati backend endpoint za slanje emaila
-        console.log('Form submitted:', formData);
-        alert('Contact form will be implemented with backend endpoint.');
+        post(store().url, {
+            onSuccess: () => reset('name', 'email', 'message'),
+        });
     };
 
     return (
@@ -25,13 +46,49 @@ export default function ContactSection() {
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="font-['Manrope'] text-5xl font-bold text-[#dee5ff]">Let's Build Together</h2>
                     <p className="text-[#91aaeb] text-lg max-w-2xl mx-auto">
-                        Looking for a senior Laravel developer to scale your technical platform? Ready to collaborate 
+                        Looking for a senior Laravel developer to scale your technical platform? Ready to collaborate
                         on challenging backend, AI, or infrastructure projects.
                     </p>
                 </div>
 
+                {flash?.success && (
+                    <div className="mb-6 flex items-center gap-3 rounded-xl border border-[#06b77f]/30 bg-[#06b77f]/10 px-5 py-4 text-[#06b77f]">
+                        <CheckCircle size={20} />
+                        <span>{flash.success}</span>
+                    </div>
+                )}
+
+                {flash?.error && (
+                    <div className="mb-6 flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-red-400">
+                        <XCircle size={20} />
+                        <span>{flash.error}</span>
+                    </div>
+                )}
+
                 <div className="bg-[#05183c] rounded-2xl p-8 md:p-12 border border-[#2b4680]/20 shadow-2xl">
                     <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Honeypot fields — hidden from humans, visible to bots */}
+                        {honeypot.enabled && (
+                            <div style={{ display: 'none' }} aria-hidden="true">
+                                <input
+                                    type="text"
+                                    name={honeypot.nameFieldName}
+                                    value={data[honeypot.nameFieldName]}
+                                    onChange={(e) => setData(honeypot.nameFieldName, e.target.value)}
+                                    tabIndex={-1}
+                                    autoComplete="nope"
+                                />
+                                <input
+                                    type="text"
+                                    name={honeypot.validFromFieldName}
+                                    value={data[honeypot.validFromFieldName]}
+                                    onChange={(e) => setData(honeypot.validFromFieldName, e.target.value)}
+                                    tabIndex={-1}
+                                    autoComplete="off"
+                                />
+                            </div>
+                        )}
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="name" className="text-[#dee5ff] font-medium">
@@ -42,10 +99,11 @@ export default function ContactSection() {
                                     type="text"
                                     required
                                     placeholder="John Doe"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
                                     className="bg-[#06122d] border-[#2b4680]/30 text-[#dee5ff] placeholder:text-[#91aaeb]/50 focus:border-[#bdc2ff] focus:ring-[#bdc2ff]/20"
                                 />
+                                {errors.name && <p className="text-xs text-red-400">{errors.name}</p>}
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email" className="text-[#dee5ff] font-medium">
@@ -56,10 +114,11 @@ export default function ContactSection() {
                                     type="email"
                                     required
                                     placeholder="john@example.com"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
                                     className="bg-[#06122d] border-[#2b4680]/30 text-[#dee5ff] placeholder:text-[#91aaeb]/50 focus:border-[#bdc2ff] focus:ring-[#bdc2ff]/20"
                                 />
+                                {errors.email && <p className="text-xs text-red-400">{errors.email}</p>}
                             </div>
                         </div>
 
@@ -72,19 +131,21 @@ export default function ContactSection() {
                                 required
                                 rows={6}
                                 placeholder="Tell me about your project, timeline, and technical challenges..."
-                                value={formData.message}
-                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                value={data.message}
+                                onChange={(e) => setData('message', e.target.value)}
                                 className="w-full px-3 py-2 bg-[#06122d] border border-[#2b4680]/30 rounded-md text-[#dee5ff] placeholder:text-[#91aaeb]/50 focus:border-[#bdc2ff] focus:ring-2 focus:ring-[#bdc2ff]/20 focus:outline-none resize-none"
                             />
+                            {errors.message && <p className="text-xs text-red-400">{errors.message}</p>}
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                            <Button 
+                            <Button
                                 type="submit"
-                                className="w-full sm:w-auto bg-[#06b77f] text-[#001a12] hover:bg-[#05a36f] hover:scale-105 px-6 py-3 rounded-lg font-semibold text-base shadow-lg shadow-[#06b77f]/20 transition-all h-auto"
+                                disabled={processing}
+                                className="w-full sm:w-auto bg-[#06b77f] text-[#001a12] hover:bg-[#05a36f] hover:scale-105 px-6 py-3 rounded-lg font-semibold text-base shadow-lg shadow-[#06b77f]/20 transition-all h-auto disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100"
                             >
                                 <Send className="mr-2" size={18} />
-                                Send Message
+                                {processing ? 'Sending…' : 'Send Message'}
                             </Button>
                             <div className="flex items-center gap-3 text-sm text-[#91aaeb]">
                                 <div className="flex items-center gap-2">

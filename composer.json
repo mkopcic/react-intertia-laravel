@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "artesaos/seotools": "^1.4",
         "barryvdh/laravel-debugbar": "*",
         "inertiajs/inertia-laravel": "^3.0",
         "laravel-lang/common": "^6.8",
@@ -20,7 +21,10 @@
         "opcodesio/log-viewer": "*",
         "spatie/laravel-activitylog": "*",
         "spatie/laravel-backup": "*",
-        "spatie/laravel-permission": "*"
+        "spatie/laravel-honeypot": "^4.7",
+        "spatie/laravel-permission": "*",
+        "spatie/laravel-sitemap": "^8.1",
+        "spatie/schema-org": "^4.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",

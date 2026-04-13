@@ -1,20 +1,28 @@
 <?php
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Teams\TeamInvitationController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\EnsureTeamMembership;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware(ProtectAgainstSpam::class)
+    ->name('contact.store');
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
     ->scopeBindings()
     ->group(function () {
         Route::inertia('dashboard', 'dashboard')->name('dashboard');
-        Route::resource('users', \App\Http\Controllers\UserController::class);
+        Route::resource('users', UserController::class);
     });
 
 Route::middleware(['auth'])->group(function () {

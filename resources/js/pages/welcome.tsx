@@ -9,10 +9,29 @@ import HeroSection from '@/components/welcome/hero-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
 import { dashboard, login, register } from '@/routes';
 
+interface HoneypotData {
+    enabled: boolean;
+    nameFieldName: string;
+    validFromFieldName: string;
+    encryptedValidFrom: string;
+}
+
+interface SeoData {
+    title: string;
+    description: string;
+    url: string;
+}
+
 export default function Welcome({
     canRegister = true,
+    honeypot,
+    seo,
+    schemaJson,
 }: {
     canRegister?: boolean;
+    honeypot: HoneypotData;
+    seo: SeoData;
+    schemaJson: string;
 }) {
     const { auth, currentTeam } = usePage().props;
     const dashboardUrl = currentTeam ? dashboard(currentTeam.slug) : '/';
@@ -20,7 +39,17 @@ export default function Welcome({
 
     return (
         <>
-            <Head title="The Architect | Senior Laravel Developer">
+            <Head title={seo.title}>
+                <meta name="description" content={seo.description} />
+                <meta property="og:title" content={seo.title} />
+                <meta property="og:description" content={seo.description} />
+                <meta property="og:url" content={seo.url} />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={seo.title} />
+                <meta name="twitter:description" content={seo.description} />
+                <link rel="canonical" href={seo.url} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link
@@ -171,7 +200,7 @@ export default function Welcome({
                     <TechStackBento />
                     <FeaturedProjects />
                     <AboutSection />
-                    <ContactSection />
+                    <ContactSection honeypot={honeypot} />
                 </main>
             </div>
         </>

@@ -1,5 +1,5 @@
 @extends('errors::minimal')
 
-@section('title', __('Server Error'))
+@section('title', 'Greška na serveru')
 @section('code', '500')
-@section('message', __('Server Error'))
+@section('message', 'Nešto je pošlo po krivu. Pokušajte ponovo za koji trenutak.')

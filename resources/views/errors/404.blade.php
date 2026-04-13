@@ -1,5 +1,5 @@
 @extends('errors::minimal')
 
-@section('title', __('Not Found'))
+@section('title', 'Stranica nije pronađena')
 @section('code', '404')
-@section('message', __('Not Found'))
+@section('message', 'Tražena stranica ne postoji ili je premještena.')

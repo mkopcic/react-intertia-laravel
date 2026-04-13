@@ -1,5 +1,5 @@
 @extends('errors::minimal')
 
-@section('title', __('Service Unavailable'))
+@section('title', 'Servis privremeno nedostupan')
 @section('code', '503')
-@section('message', __('Service Unavailable'))
+@section('message', 'Stranica je trenutno u održavanju. Pratite najave ili se vratite uskoro.')

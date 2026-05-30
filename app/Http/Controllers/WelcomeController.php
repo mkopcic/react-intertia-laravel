@@ -29,7 +29,7 @@ class WelcomeController extends Controller
             ->url(config('app.url'))
             ->knowsAbout(['Laravel', 'PHP', 'React', 'TypeScript', 'DevOps', 'Docker', 'AI/MCP'])
             ->description(
-                'Full-stack developer and DevOps engineer with 10+ years of experience '
+                'Full-stack developer and DevOps engineer with 15+ years of experience '
                 .'building production-grade web applications, SaaS platforms, and cloud infrastructure.'
             )
             ->sameAs(array_filter([
@@ -39,7 +39,7 @@ class WelcomeController extends Controller
             ]));
 
         $seoTitle = 'Marijan Kopčić | Lead Laravel & DevOps Engineer';
-        $seoDescription = '10+ years building SaaS platforms, AI integrations, and cloud infrastructure. '
+        $seoDescription = '15+ years building SaaS platforms, AI integrations, and cloud infrastructure. '
             .'Available for remote Laravel & DevOps projects.';
         $seoUrl = config('app.url');
 
@@ -58,6 +58,12 @@ class WelcomeController extends Controller
             ->setType('summary_large_image')
             ->addValue('image', $seoUrl.'/og-image.jpg');
 
+        $websiteArray = $websiteSchema->toArray();
+        unset($websiteArray['@context']);
+
+        $personArray = $personSchema->toArray();
+        unset($personArray['@context']);
+
         return Inertia::render('welcome', [
             'canRegister' => Features::enabled(Features::registration()),
             'honeypot' => $this->honeypot->toArray(),
@@ -68,11 +74,8 @@ class WelcomeController extends Controller
             ],
             'schemaJson' => json_encode([
                 '@context' => 'https://schema.org',
-                '@graph' => [
-                    $websiteSchema->toArray(),
-                    $personSchema->toArray(),
-                ],
-            ]),
+                '@graph' => [$websiteArray, $personArray],
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
         ]);
     }
 }

@@ -1,4 +1,4 @@
-import { Terminal, Database, Cloud, ArrowRight, FolderOpen } from 'lucide-react';
+import { Terminal, ArrowRight, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function HeroSection() {
@@ -18,7 +18,7 @@ export default function HeroSection() {
                     <p className="max-w-xl text-lg md:text-xl text-[#91aaeb] leading-relaxed">
                         Lead Full-Stack Developer & DevOps Engineer specializing in high-scale{' '}
                         <span className="text-[#dee5ff] font-semibold">Laravel ecosystems</span>.
-                        10+ years of crafting resilient backend architectures and fluid React interfaces.
+                        15+ years of crafting resilient backend architectures and fluid React interfaces.
                     </p>
                     <div className="flex flex-wrap gap-3 pt-4">
                         <a href="#contact">
@@ -49,7 +49,7 @@ export default function HeroSection() {
                         <div className="space-y-4">
                             <div className="flex justify-between items-center text-sm">
                                 <span className="text-[#91aaeb]">Laravel / PHP</span>
-                                <span className="font-bold text-[#dee5ff]">10+ Years</span>
+                                <span className="font-bold text-[#dee5ff]">15+ Years</span>
                             </div>
                             <div className="w-full bg-[#05183c] rounded-full h-1">
                                 <div className="bg-[#06b77f] h-1 rounded-full w-full"></div>

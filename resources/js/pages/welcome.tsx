@@ -6,6 +6,7 @@ import AboutSection from '@/components/welcome/about-section';
 import ContactSection from '@/components/welcome/contact-section';
 import FeaturedProjects from '@/components/welcome/featured-projects';
 import HeroSection from '@/components/welcome/hero-section';
+import OpenSourceSection from '@/components/welcome/open-source-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
 import { dashboard, login /*, register */ } from '@/routes';
 
@@ -220,6 +221,7 @@ export default function Welcome({
                     <HeroSection />
                     <TechStackBento />
                     <FeaturedProjects />
+                    <OpenSourceSection />
                     <AboutSection />
                     <ContactSection honeypot={honeypot} />
                 </main>

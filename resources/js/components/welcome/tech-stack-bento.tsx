@@ -16,8 +16,9 @@ export default function TechStackBento() {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">PHP 8.4</span>
-                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Alpine.js</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">SOLID</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">TDD</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">KISS</span>
                             </div>
                         </div>
                     </div>
@@ -90,6 +91,7 @@ export default function TechStackBento() {
                             <div className="flex flex-wrap gap-2">
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">React 19</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Vue</span>
+                                <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Alpine.js</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Livewire</span>
                                 <span className="px-3 py-1 bg-[#031d4b] rounded-lg text-xs font-medium text-[#dee5ff]">Tailwind</span>
                             </div>

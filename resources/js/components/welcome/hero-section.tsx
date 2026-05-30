@@ -17,7 +17,7 @@ export default function HeroSection() {
                     </h1>
                     <p className="max-w-xl text-lg md:text-xl text-[#91aaeb] leading-relaxed">
                         Lead Full-Stack Developer & DevOps Engineer specializing in high-scale{' '}
-                        <span className="text-[#dee5ff] font-semibold">Laravel ecosystems</span>. 
+                        <span className="text-[#dee5ff] font-semibold">Laravel ecosystems</span>.
                         10+ years of crafting resilient backend architectures and fluid React interfaces.
                     </p>
                     <div className="flex flex-wrap gap-3 pt-4">
@@ -28,8 +28,8 @@ export default function HeroSection() {
                             </Button>
                         </a>
                         <a href="#work">
-                            <Button 
-                                variant="outline" 
+                            <Button
+                                variant="outline"
                                 className="border border-[#5b74b1]/30 text-[#dee5ff] px-6 py-2.5 rounded-lg font-semibold text-base hover:bg-[#05183c] hover:text-[#dee5ff] hover:border-[#06b77f]/40 transition-all h-auto"
                             >
                                 <FolderOpen className="mr-2" size={18} />

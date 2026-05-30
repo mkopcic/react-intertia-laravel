@@ -15,7 +15,7 @@ Lead Full-Stack Developer & DevOps Engineer | Laravel · AI & MCP · Cloud Infra
 ## 👤 ABOUT
 
 ```
-I'm a full-stack developer and DevOps engineer with 8+ years of experience building
+I'm a full-stack developer and DevOps engineer with 10+ years of experience building
 production-grade web applications, SaaS platforms, and cloud infrastructure from the
 ground up.
 

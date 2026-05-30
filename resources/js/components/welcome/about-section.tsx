@@ -11,13 +11,13 @@ export default function AboutSection() {
                 </div>
                 <div className="space-y-8 border-l border-[#2b4680]/30 pl-12 py-4">
                     <p className="text-lg text-[#91aaeb] leading-relaxed">
-                        I don't just write code; I design systems that endure. Over the last 8 years, I've learned that 
+                        I don't just write code; I design systems that endure. Over the last 10 years, I've learned that
                         the most expensive line of code is the one you have to rewrite because of poor planning.
                     </p>
                     <p className="text-lg text-[#91aaeb] leading-relaxed">
                         My philosophy centers on{' '}
-                        <span className="text-[#dee5ff] font-semibold">MVC Purity, Security, and Scalability</span>. 
-                        I leverage Laravel's elegant patterns to solve complex business problems without introducing 
+                        <span className="text-[#dee5ff] font-semibold">MVC Purity, Security, and Scalability</span>.
+                        I leverage Laravel's elegant patterns to solve complex business problems without introducing
                         unnecessary technical debt.
                     </p>
                     <div className="flex items-center gap-4 pt-4">

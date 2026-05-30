@@ -1,4 +1,8 @@
 User-agent: *
-Disallow:
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /dashboard
 
 Sitemap: https://marijankopcic.from.hr/sitemap.xml

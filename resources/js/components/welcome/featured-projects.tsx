@@ -15,12 +15,12 @@ export default function FeaturedProjects() {
                     {/* Project 1: WDR Cloud Platform */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                         <div className="lg:col-span-7 rounded-2xl overflow-hidden shadow-2xl bg-[#00225a] group">
-                            <div className="w-full h-full aspect-video bg-gradient-to-br from-[#2f3aa3]/20 to-[#05183c] flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
-                                <div className="text-center space-y-4 p-8">
-                                    <div className="text-6xl font-['Manrope'] font-bold text-[#acb3ff]/30">WDR</div>
-                                    <div className="text-sm text-[#91aaeb]/50">Fleet Management Platform</div>
-                                </div>
-                            </div>
+                            <img
+                                src="/images/projects/wdr.jpg"
+                                alt="WDR Cloud Platform - Fleet Management SaaS"
+                                className="w-full aspect-video object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                                loading="lazy"
+                            />
                         </div>
                         <div className="lg:col-span-5 space-y-6">
                             <span className="text-[#06b77f] font-mono text-sm tracking-widest uppercase">
@@ -44,12 +44,12 @@ export default function FeaturedProjects() {
                                 </Badge>
                             </div>
                             <a 
-                                href="https://willdienstrad.app" 
+                                href="https://willdienstrad.app/" 
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 text-[#bdc2ff] hover:gap-4 transition-all font-semibold"
+                                className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
                             >
-                                View Case Study <ArrowRight size={20} />
+                                View Case Study <ArrowRight size={18} />
                             </a>
                         </div>
                     </div>
@@ -78,55 +78,63 @@ export default function FeaturedProjects() {
                                 </Badge>
                             </div>
                             <a 
-                                href="https://fitapp.cloud" 
+                                href="https://fitapp.cloud/" 
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 text-[#bdc2ff] hover:gap-4 transition-all font-semibold"
+                                className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
                             >
-                                View Case Study <ArrowRight size={20} />
+                                View Case Study <ArrowRight size={18} />
                             </a>
                         </div>
                         <div className="lg:col-span-7 lg:order-2 order-1 rounded-2xl overflow-hidden shadow-2xl bg-[#00225a] group">
-                            <div className="w-full h-full aspect-video bg-gradient-to-br from-[#00452d]/20 to-[#05183c] flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
-                                <div className="text-center space-y-4 p-8">
-                                    <div className="text-6xl font-['Manrope'] font-bold text-[#06b77f]/30">FitApp</div>
-                                    <div className="text-sm text-[#91aaeb]/50">Fitness Management SaaS</div>
-                                </div>
-                            </div>
+                            <img
+                                src="/images/projects/fitapp.jpg"
+                                alt="FitApp Cloud - Multi-tenant Fitness Management SaaS"
+                                className="w-full aspect-video object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                                loading="lazy"
+                            />
                         </div>
                     </div>
 
                     {/* Project 3: Housespilot */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                         <div className="lg:col-span-7 rounded-2xl overflow-hidden shadow-2xl bg-[#00225a] group">
-                            <div className="w-full h-full aspect-video bg-gradient-to-br from-[#2b4680]/20 to-[#05183c] flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
-                                <div className="text-center space-y-4 p-8">
-                                    <div className="text-5xl font-['Manrope'] font-bold text-[#bdc2ff]/30">Housespilot</div>
-                                    <div className="text-sm text-[#91aaeb]/50">Property Management</div>
-                                </div>
-                            </div>
+                            <img
+                                src="/images/projects/housespilot.jpg"
+                                alt="Housespilot - Smart Home Automation Platform"
+                                className="w-full aspect-video object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                                loading="lazy"
+                            />
                         </div>
                         <div className="lg:col-span-5 space-y-6">
                             <span className="text-[#06b77f] font-mono text-sm tracking-widest uppercase">
-                                03 / Web Application
+                                03 / Smart Home Platform
                             </span>
                             <h3 className="font-['Manrope'] text-3xl font-bold text-[#dee5ff]">Housespilot</h3>
                             <p className="text-[#91aaeb] leading-relaxed">
-                                Comprehensive property management web application for landlords and property managers. 
-                                Features tenant portals, maintenance requests, financial tracking, and automated rent collection. 
-                                Built with modern Laravel stack.
+                                Multi-tenant smart home automation platform powered by headless Home Assistant. 
+                                Controls lighting, HVAC, blinds, security, and irrigation — all from a single app. 
+                                Designed for both new builds and existing homes with mobile support.
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <Badge variant="outline" className="bg-[#05183c] px-3 py-1 text-xs border-[#2b4680]/20 text-[#dee5ff]">
                                     Laravel
                                 </Badge>
                                 <Badge variant="outline" className="bg-[#05183c] px-3 py-1 text-xs border-[#2b4680]/20 text-[#dee5ff]">
-                                    Vue.js
+                                    Home Assistant
                                 </Badge>
                                 <Badge variant="outline" className="bg-[#05183c] px-3 py-1 text-xs border-[#2b4680]/20 text-[#dee5ff]">
-                                    MySQL
+                                    Multi-Tenant
                                 </Badge>
                             </div>
+                            <a
+                                href="https://housespilot.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
+                            >
+                                View Case Study <ArrowRight size={18} />
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -12,8 +12,6 @@ export interface BlogSeo {
 
 interface Props {
     seo: BlogSeo;
-    /** Absolute URL of the cover/OG image, when the page has its own. */
-    image?: string | null;
 }
 
 /**
@@ -21,23 +19,19 @@ interface Props {
  * anchor on purpose — it lives on a different host, and an Inertia visit
  * cannot cross origins.
  */
-export default function BlogLayout({ seo, image, children }: PropsWithChildren<Props>) {
+export default function BlogLayout({ seo, children }: PropsWithChildren<Props>) {
     const portfolioUrl = 'https://marijankopcic.from.hr';
 
     return (
         <>
+            {/*
+                SEO meta, Open Graph, Twitter and canonical are rendered
+                server-side by seotools in resources/views/app.blade.php.
+                Repeating them here emitted every tag twice — and, with SSR
+                on, a second og:type that contradicted the server's one.
+                Only the title stays, so client-side visits update the tab.
+            */}
             <Head title={seo.title}>
-                <meta name="description" content={seo.description} />
-                <meta property="og:title" content={seo.title} />
-                <meta property="og:description" content={seo.description} />
-                <meta property="og:url" content={seo.url} />
-                <meta property="og:type" content="article" />
-                {image && <meta property="og:image" content={image} />}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={seo.title} />
-                <meta name="twitter:description" content={seo.description} />
-                {image && <meta name="twitter:image" content={image} />}
-                <link rel="canonical" href={seo.url} />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\RobotsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,7 @@ Route::domain(config('blog.domain'))
     ->group(function () {
         Route::get('/', [BlogController::class, 'index'])->name('index');
         Route::get('/sitemap.xml', [BlogController::class, 'sitemap'])->name('sitemap');
+        Route::get('/robots.txt', [RobotsController::class, 'index'])->name('robots');
         Route::get('/docs/{document}', [BlogController::class, 'document'])->name('document');
         Route::get('/tags/{tag:slug}', [BlogController::class, 'tag'])->name('tag');
         Route::get('/{post:slug}', [BlogController::class, 'show'])->name('post');

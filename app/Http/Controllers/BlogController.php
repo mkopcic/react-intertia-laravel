@@ -36,7 +36,11 @@ class BlogController extends Controller
         $description = 'Notes on Laravel, PHP, React, DevOps and cloud infrastructure '
             .'from 15+ years of building production systems.';
 
-        $this->applySeo($title, $description, $this->blogUrl(), '/og-image.jpg');
+        $posts = $this->paginatedPosts();
+        $canonical = $this->canonicalFor($posts, $this->blogUrl());
+
+        $this->applySeo($title, $description, $canonical, '/og-image.jpg');
+        $this->applyPaginationLinks($posts);
 
         $blogSchema = Schema::blog()
             ->name($title)
@@ -44,10 +48,10 @@ class BlogController extends Controller
             ->url($this->blogUrl());
 
         return Inertia::render('blog/index', [
-            'posts' => $this->paginatedPosts(),
+            'posts' => $posts,
             'tags' => $this->tagList(),
             'documents' => $this->documents(),
-            'seo' => ['title' => $title, 'description' => $description, 'url' => $this->blogUrl()],
+            'seo' => ['title' => $title, 'description' => $description, 'url' => $canonical],
             'schemaJson' => $this->schemaJson([$blogSchema->toArray()]),
         ]);
     }
@@ -85,7 +89,7 @@ class BlogController extends Controller
         $description = $post->meta_description ?: (string) $post->excerpt;
         $image = $post->coverUrl() ?? $this->blogUrl('/og-image.jpg');
 
-        $this->applySeo($title, $description, $url, $image);
+        $this->applySeo($title, $description, $url, $image, 'article', $post);
 
         $postSchema = Schema::blogPosting()
             ->headline($post->title)
@@ -125,13 +129,17 @@ class BlogController extends Controller
         $title = $tag->name.' | Blog | Marijan Kopčić';
         $description = 'Posts tagged '.$tag->name.' — Laravel, DevOps and cloud engineering notes.';
 
-        $this->applySeo($title, $description, $url, '/og-image.jpg');
+        $posts = $this->paginatedPosts($tag);
+        $canonical = $this->canonicalFor($posts, $url);
+
+        $this->applySeo($title, $description, $canonical, '/og-image.jpg');
+        $this->applyPaginationLinks($posts);
 
         return Inertia::render('blog/tag', [
             'tag' => ['name' => $tag->name, 'slug' => $tag->slug],
-            'posts' => $this->paginatedPosts($tag),
+            'posts' => $posts,
             'tags' => $this->tagList(),
-            'seo' => ['title' => $title, 'description' => $description, 'url' => $url],
+            'seo' => ['title' => $title, 'description' => $description, 'url' => $canonical],
             'schemaJson' => null,
         ]);
     }
@@ -256,6 +264,38 @@ class BlogController extends Controller
     }
 
     /**
+     * Build the canonical URL for a paginated listing.
+     *
+     * Without the page number every page of the listing claims to be page
+     * one, so Google folds them into a single duplicate and drops the deeper
+     * pages out of the index.
+     *
+     * @param  LengthAwarePaginator<int, Post>  $posts
+     */
+    protected function canonicalFor(LengthAwarePaginator $posts, string $base): string
+    {
+        return $posts->currentPage() > 1
+            ? $base.'?page='.$posts->currentPage()
+            : $base;
+    }
+
+    /**
+     * Announce the neighbouring pages of a paginated listing.
+     *
+     * @param  LengthAwarePaginator<int, Post>  $posts
+     */
+    protected function applyPaginationLinks(LengthAwarePaginator $posts): void
+    {
+        if ($previous = $posts->previousPageUrl()) {
+            SEOMeta::setPrev($previous);
+        }
+
+        if ($next = $posts->nextPageUrl()) {
+            SEOMeta::setNext($next);
+        }
+    }
+
+    /**
      * Build an absolute URL on the blog host.
      */
     protected function blogUrl(string $path = ''): string
@@ -265,9 +305,19 @@ class BlogController extends Controller
 
     /**
      * Apply the meta, Open Graph and Twitter tags rendered by the root view.
+     *
+     * Only a single post is an article. The index and the tag archives are
+     * listings, and announcing them as articles makes scrapers look for a
+     * published time and an author that a listing does not have.
      */
-    protected function applySeo(string $title, string $description, string $url, string $image): void
-    {
+    protected function applySeo(
+        string $title,
+        string $description,
+        string $url,
+        string $image,
+        string $type = 'website',
+        ?Post $post = null,
+    ): void {
         $image = str_starts_with($image, 'http') ? $image : $this->blogUrl($image);
 
         SEOMeta::setTitle($title, false)
@@ -277,8 +327,19 @@ class BlogController extends Controller
         OpenGraph::setTitle($title)
             ->setDescription($description)
             ->setUrl($url)
-            ->addProperty('type', 'article')
+            ->addProperty('type', $type)
             ->addImage($image);
+
+        if ($post instanceof Post) {
+            SEOMeta::addMeta('author', $post->author->name);
+
+            OpenGraph::setArticle([
+                'published_time' => $post->created_at?->toIso8601String(),
+                'modified_time' => $post->updated_at?->toIso8601String(),
+                'author' => $post->author->name,
+                'tag' => $post->tags->pluck('name')->all(),
+            ]);
+        }
 
         TwitterCard::setTitle($title)
             ->setDescription($description)

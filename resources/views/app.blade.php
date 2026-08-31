@@ -45,14 +45,14 @@
         <script type="application/ld+json">{!! $page['props']['schemaJson'] !!}</script>
         @endif
 
-        @if(env('VITE_GA_MEASUREMENT_ID'))
+        @if($analyticsId = config('seo.analytics_id'))
         <!-- Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ env('VITE_GA_MEASUREMENT_ID') }}"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $analyticsId }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '{{ env('VITE_GA_MEASUREMENT_ID') }}');
+            gtag('config', '{{ $analyticsId }}');
         </script>
         @endif
 

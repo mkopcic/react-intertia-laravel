@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Users } from 'lucide-react';
+import { LayoutGrid, Newspaper, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -14,6 +14,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import * as posts from '@/routes/posts';
 import * as users from '@/routes/users';
 import type { NavItem } from '@/types';
 
@@ -24,6 +25,9 @@ export function AppSidebar() {
         : '/';
     const usersUrl = page.props.currentTeam
         ? users.index(page.props.currentTeam.slug)
+        : '/';
+    const postsUrl = page.props.currentTeam
+        ? posts.index(page.props.currentTeam.slug)
         : '/';
 
     const mainNavItems: NavItem[] = [
@@ -36,6 +40,11 @@ export function AppSidebar() {
             title: 'Korisnici',
             href: usersUrl,
             icon: Users,
+        },
+        {
+            title: 'Blog',
+            href: postsUrl,
+            icon: Newspaper,
         },
     ];
 

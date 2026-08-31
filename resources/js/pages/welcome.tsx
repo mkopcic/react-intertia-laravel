@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, Download } from 'lucide-react';
+import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, Download, PenSquare } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import AboutSection from '@/components/welcome/about-section';
@@ -9,6 +9,7 @@ import HeroSection from '@/components/welcome/hero-section';
 import OpenSourceSection from '@/components/welcome/open-source-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
 import { dashboard, login /*, register */ } from '@/routes';
+import { index as postsIndex } from '@/routes/posts';
 
 interface HoneypotData {
     enabled: boolean;
@@ -43,6 +44,7 @@ export default function Welcome({
     const { auth, currentTeam } = usePage().props;
     const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
     const dashboardUrl = currentTeam ? dashboard(currentTeam.slug) : '/';
+    const postsUrl = currentTeam ? postsIndex(currentTeam.slug) : '/';
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [showFlash, setShowFlash] = useState(false);
 
@@ -70,16 +72,14 @@ export default function Welcome({
                     <button onClick={() => setShowFlash(false)} className="ml-2 text-red-400/60 hover:text-red-400"><X size={16} /></button>
                 </div>
             )}
+            {/*
+                SEO meta, Open Graph, Twitter and canonical are rendered
+                server-side by seotools in resources/views/app.blade.php.
+                Repeating them here emitted every tag twice — and, with SSR
+                on, a second og:type that contradicted the server's one.
+                Only the title stays, so client-side visits update the tab.
+            */}
             <Head title={seo.title}>
-                <meta name="description" content={seo.description} />
-                <meta property="og:title" content={seo.title} />
-                <meta property="og:description" content={seo.description} />
-                <meta property="og:url" content={seo.url} />
-                <meta property="og:type" content="website" />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={seo.title} />
-                <meta name="twitter:description" content={seo.description} />
-                <link rel="canonical" href={seo.url} />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link
@@ -127,13 +127,22 @@ export default function Welcome({
                         </div>
                         <div className="hidden md:flex items-center gap-3">
                             {auth.user ? (
-                                <Link
-                                    href={dashboardUrl}
-                                    className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
-                                >
-                                    <LayoutDashboard size={16} />
-                                    Dashboard
-                                </Link>
+                                <>
+                                    <Link
+                                        href={postsUrl}
+                                        className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors duration-300 flex items-center gap-1.5 text-sm font-medium"
+                                    >
+                                        <PenSquare size={16} />
+                                        Posts
+                                    </Link>
+                                    <Link
+                                        href={dashboardUrl}
+                                        className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
+                                    >
+                                        <LayoutDashboard size={16} />
+                                        Dashboard
+                                    </Link>
+                                </>
                             ) : (
                                 <>
                                     <Link
@@ -203,13 +212,22 @@ export default function Welcome({
                                 
                                 <div className="pt-4 space-y-2">
                                     {auth.user ? (
-                                        <Link
-                                            href={dashboardUrl}
-                                            className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
-                                        >
-                                            <LayoutDashboard size={18} />
-                                            Dashboard
-                                        </Link>
+                                        <>
+                                            <Link
+                                                href={postsUrl}
+                                                className="flex items-center justify-center gap-2 w-full border border-[#2b4680]/40 text-[#dee5ff] px-4 py-2 rounded-lg font-medium text-sm"
+                                            >
+                                                <PenSquare size={18} />
+                                                Posts
+                                            </Link>
+                                            <Link
+                                                href={dashboardUrl}
+                                                className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
+                                            >
+                                                <LayoutDashboard size={18} />
+                                                Dashboard
+                                            </Link>
+                                        </>
                                     ) : (
                                         <>
                                             <Link

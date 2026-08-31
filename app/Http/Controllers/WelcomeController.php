@@ -9,10 +9,10 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Inertia\Inertia;
 use Inertia\Response;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Laravel\Fortify\Features;
 use Spatie\Honeypot\Honeypot;
 use Spatie\SchemaOrg\Schema;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class WelcomeController extends Controller
 {
@@ -43,11 +43,7 @@ class WelcomeController extends Controller
                 'Full-stack developer and DevOps engineer with 15+ years of experience '
                 .'building production-grade web applications, SaaS platforms, and cloud infrastructure.'
             )
-            ->sameAs(array_filter([
-                env('SOCIAL_GITHUB', ''),
-                env('SOCIAL_LINKEDIN', ''),
-                env('SOCIAL_FACEBOOK', ''),
-            ]));
+            ->sameAs(array_values(array_filter(config('seo.social'))));
 
         $seoTitle = 'Marijan Kopčić | Lead Laravel & DevOps Engineer';
         $seoDescription = '15+ years building SaaS platforms, AI integrations, and cloud infrastructure. '

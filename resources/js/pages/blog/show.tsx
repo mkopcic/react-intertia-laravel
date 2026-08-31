@@ -35,7 +35,7 @@ function formatDate(iso: string | null): string {
 
 export default function BlogShow({ post, related, seo }: Props) {
     return (
-        <BlogLayout seo={seo} image={post.coverUrl}>
+        <BlogLayout seo={seo}>
             <article className="py-16">
                 <Link
                     href={blogIndex.url()}

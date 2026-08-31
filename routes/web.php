@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
-use App\Mail\DocsMail;
 use App\Http\Middleware\EnsureTeamMembership;
+use App\Mail\DocsMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
@@ -23,14 +24,15 @@ Route::redirect('/register', '/login');
 Route::get('/docs/{document}', [WelcomeController::class, 'document'])->name('docs.document');
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [RobotsController::class, 'index'])->name('robots');
 Route::redirect('/sitemap', '/sitemap.xml');
 
 // Test ruta — samo local/dev
 Route::get('/email-docs', function () {
     $to = config('mail.from.address');
-    Mail::to($to)->send(new DocsMail());
+    Mail::to($to)->send(new DocsMail);
 
-    return 'Docs mail poslan na ' . $to;
+    return 'Docs mail poslan na '.$to;
 })->middleware('auth');
 
 Route::post('/contact', [ContactController::class, 'store'])

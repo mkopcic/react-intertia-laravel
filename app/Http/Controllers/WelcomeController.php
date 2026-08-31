@@ -9,12 +9,23 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Laravel\Fortify\Features;
 use Spatie\Honeypot\Honeypot;
 use Spatie\SchemaOrg\Schema;
 
 class WelcomeController extends Controller
 {
+    /**
+     * Files under the project's docs/ directory offered for download.
+     *
+     * @var array<string, array{name: string, type: string}>
+     */
+    private const DOCUMENTS = [
+        'CV_Marijan_Kopcic_2026.pdf' => ['name' => 'CV — Marijan Kopčić (HR)', 'type' => 'PDF'],
+        'CV_Marijan_Kopcic_2026_EN.pdf' => ['name' => 'CV — Marijan Kopčić (EN)', 'type' => 'PDF'],
+    ];
+
     public function __construct(private readonly Honeypot $honeypot) {}
 
     public function index(): Response
@@ -66,6 +77,7 @@ class WelcomeController extends Controller
 
         return Inertia::render('welcome', [
             'canRegister' => Features::enabled(Features::registration()),
+            'documents' => $this->documents(),
             'honeypot' => $this->honeypot->toArray(),
             'seo' => [
                 'title' => $seoTitle,
@@ -77,5 +89,29 @@ class WelcomeController extends Controller
                 '@graph' => [$websiteArray, $personArray],
             ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
         ]);
+    }
+
+    public function document(string $document): BinaryFileResponse
+    {
+        abort_unless(array_key_exists($document, self::DOCUMENTS), 404);
+
+        return response()->file(base_path('docs/'.$document));
+    }
+
+    /**
+     * The downloadable documents offered on the portfolio page.
+     *
+     * @return array<int, array{name: string, type: string, url: string}>
+     */
+    protected function documents(): array
+    {
+        return collect(self::DOCUMENTS)
+            ->map(fn (array $document, string $file): array => [
+                'name' => $document['name'],
+                'type' => $document['type'],
+                'url' => rtrim((string) config('app.url'), '/').'/docs/'.$file,
+            ])
+            ->values()
+            ->all();
     }
 }

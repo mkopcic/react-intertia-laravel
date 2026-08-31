@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Controllers\UserController;
@@ -11,9 +12,15 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
+// Blog routes are domain-constrained and must win "/" on the blog subdomain,
+// so they are registered before the portfolio routes below.
+require __DIR__.'/blog.php';
+
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 Route::redirect('/register', '/login');
+
+Route::get('/docs/{document}', [WelcomeController::class, 'document'])->name('docs.document');
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::redirect('/sitemap', '/sitemap.xml');
@@ -36,6 +43,7 @@ Route::prefix('{current_team}')
     ->group(function () {
         Route::inertia('dashboard', 'dashboard')->name('dashboard');
         Route::resource('users', UserController::class);
+        Route::resource('posts', PostController::class)->except('show');
     });
 
 Route::middleware(['auth'])->group(function () {

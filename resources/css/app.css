@@ -165,3 +165,111 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Rendered markdown on the public blog. Hand-rolled because
+   @tailwindcss/typography is not a dependency of this project. */
+.blog-prose {
+    color: var(--architect-on-surface-variant);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+}
+
+.blog-prose > * + * {
+    margin-top: 1.5rem;
+}
+
+.blog-prose h2,
+.blog-prose h3,
+.blog-prose h4 {
+    color: var(--architect-on-surface);
+    font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-top: 3rem;
+}
+
+.blog-prose h2 { font-size: 1.875rem; }
+.blog-prose h3 { font-size: 1.5rem; }
+.blog-prose h4 { font-size: 1.25rem; }
+
+.blog-prose strong { color: var(--architect-on-surface); font-weight: 600; }
+
+.blog-prose a {
+    color: var(--architect-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.blog-prose a:hover { color: var(--architect-secondary); }
+
+.blog-prose ul,
+.blog-prose ol { padding-left: 1.5rem; }
+.blog-prose ul { list-style: disc; }
+.blog-prose ol { list-style: decimal; }
+.blog-prose li { margin-top: 0.5rem; }
+.blog-prose li::marker { color: var(--architect-secondary); }
+
+.blog-prose blockquote {
+    border-left: 3px solid var(--architect-secondary);
+    padding: 0.25rem 0 0.25rem 1.5rem;
+    color: var(--architect-on-surface);
+    font-style: italic;
+}
+
+.blog-prose code {
+    background: #05183c;
+    border: 1px solid rgb(43 70 128 / 0.4);
+    border-radius: 0.375rem;
+    padding: 0.15em 0.4em;
+    font-size: 0.875em;
+    color: var(--architect-secondary);
+}
+
+.blog-prose pre {
+    background: #05183c;
+    border: 1px solid rgb(43 70 128 / 0.3);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+}
+
+.blog-prose pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--architect-on-surface);
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.blog-prose img {
+    border-radius: 0.75rem;
+    max-width: 100%;
+    height: auto;
+}
+
+.blog-prose hr {
+    border: 0;
+    border-top: 1px solid rgb(43 70 128 / 0.3);
+    margin: 3rem 0;
+}
+
+.blog-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+}
+
+.blog-prose th,
+.blog-prose td {
+    border: 1px solid rgb(43 70 128 / 0.3);
+    padding: 0.625rem 0.875rem;
+    text-align: left;
+}
+
+.blog-prose th {
+    background: #05183c;
+    color: var(--architect-on-surface);
+    font-weight: 600;
+}

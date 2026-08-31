@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle } from 'lucide-react';
+import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, Download } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import AboutSection from '@/components/welcome/about-section';
@@ -17,6 +17,12 @@ interface HoneypotData {
     encryptedValidFrom: string;
 }
 
+interface DocumentLink {
+    name: string;
+    type: string;
+    url: string;
+}
+
 interface SeoData {
     title: string;
     description: string;
@@ -26,10 +32,12 @@ interface SeoData {
 export default function Welcome({
     canRegister = true,
     honeypot,
+    documents,
     seo,
 }: {
     canRegister?: boolean;
     honeypot: HoneypotData;
+    documents: DocumentLink[];
     seo: SeoData;
 }) {
     const { auth, currentTeam } = usePage().props;
@@ -112,6 +120,10 @@ export default function Welcome({
                                 <Mail size={16} />
                                 Contact
                             </a>
+                            <a className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors duration-300 flex items-center gap-1.5" href="https://blog.marijankopcic.from.hr">
+                                <BookOpen size={16} />
+                                Blog
+                            </a>
                         </div>
                         <div className="hidden md:flex items-center gap-3">
                             {auth.user ? (
@@ -181,6 +193,13 @@ export default function Welcome({
                                     <Mail size={20} />
                                     Contact
                                 </a>
+                                <a 
+                                    href="https://blog.marijankopcic.from.hr"
+                                    className="flex items-center gap-3 text-[#91aaeb] hover:text-[#bdc2ff] py-3 border-b border-[#2b4680]/20"
+                                >
+                                    <BookOpen size={20} />
+                                    Blog
+                                </a>
                                 
                                 <div className="pt-4 space-y-2">
                                     {auth.user ? (
@@ -224,6 +243,30 @@ export default function Welcome({
                     <OpenSourceSection />
                     <AboutSection />
                     <ContactSection honeypot={honeypot} />
+
+                    <section className="bg-[#000000] py-16" id="documents">
+                        <div className="mx-auto max-w-7xl px-8">
+                            <h2 className="text-center font-['Manrope'] text-sm font-bold tracking-widest text-[#06b77f] uppercase">
+                                Downloads
+                            </h2>
+                            <ul className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
+                                {documents.map((document) => (
+                                    <li key={document.url}>
+                                        <a
+                                            href={document.url}
+                                            className="inline-flex items-center gap-3 rounded-lg border border-[#2b4680]/30 bg-[#05183c] px-4 py-3 text-[#dee5ff] transition-colors hover:border-[#06b77f]/50 hover:text-[#06b77f]"
+                                        >
+                                            <Download size={18} className="text-[#91aaeb]" />
+                                            <span>{document.name}</span>
+                                            <span className="rounded-full border border-[#2b4680]/40 px-2 py-0.5 text-xs text-[#91aaeb]">
+                                                {document.type}
+                                            </span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </section>
                 </main>
             </div>
         </>

@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/react';
-import { Send } from 'lucide-react';
+import { CheckCircle, Send } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,10 +31,16 @@ export default function ContactSection({ honeypot }: Props) {
         [honeypot.validFromFieldName]: honeypot.encryptedValidFrom,
     });
 
+    const [justSent, setJustSent] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(store().url, {
-            onSuccess: () => reset('name', 'email', 'message'),
+            onSuccess: () => {
+                reset('name', 'email', 'message');
+                setJustSent(true);
+                setTimeout(() => setJustSent(false), 6000);
+            },
         });
     };
 
@@ -139,6 +146,13 @@ export default function ContactSection({ honeypot }: Props) {
                                 </div>
                             </div>
                         </div>
+
+                        {justSent && (
+                            <div className="flex items-center gap-2 rounded-lg border border-[#06b77f]/40 bg-[#06b77f]/10 px-4 py-3 text-[#06b77f] text-sm font-medium">
+                                <CheckCircle size={18} />
+                                <span>Your message has been sent. I will respond within 24 hours.</span>
+                            </div>
+                        )}
                     </form>
                 </div>
 

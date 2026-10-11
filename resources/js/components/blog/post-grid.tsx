@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 
-import PostCard, { type PostSummary } from '@/components/blog/post-card';
+import PostCard from '@/components/blog/post-card';
+import type {PostSummary} from '@/components/blog/post-card';
 
 export interface Paginated<T> {
     data: T[];

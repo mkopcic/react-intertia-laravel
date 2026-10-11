@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import SocialLinks from '@/components/social-links';
 import { store } from '@/actions/App/Http/Controllers/ContactController';
 
 interface HoneypotData {
@@ -163,34 +164,7 @@ export default function ContactSection({ honeypot }: Props) {
                             info@marijankopcic.from.hr
                         </a>
                     </p>
-                    <div className="flex items-center justify-center gap-6 mt-6">
-                        <a 
-                            href="https://github.com/mkopcic" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
-                        >
-                            GitHub
-                        </a>
-                        <span className="text-[#2b4680]">•</span>
-                        <a 
-                            href="https://www.linkedin.com/in/marijan-kopcic/" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
-                        >
-                            LinkedIn
-                        </a>
-                        <span className="text-[#2b4680]">•</span>
-                        <a 
-                            href="https://www.facebook.com/marijan.kopcic/" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-[#91aaeb] hover:text-[#bdc2ff] transition-colors"
-                        >
-                            Facebook
-                        </a>
-                    </div>
+                    <SocialLinks withLabels className="flex-wrap justify-center gap-3 mt-6" />
                 </div>
             </div>
         </section>

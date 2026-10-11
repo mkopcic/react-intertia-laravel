@@ -2,9 +2,13 @@ import { Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 
 import type { PostSummary } from '@/components/blog/post-card';
-import PostGrid, { type Paginated } from '@/components/blog/post-grid';
-import TagFilter, { type TagSummary } from '@/components/blog/tag-filter';
-import BlogLayout, { type BlogSeo } from '@/layouts/blog-layout';
+import PostGrid from '@/components/blog/post-grid';
+import type {Paginated} from '@/components/blog/post-grid';
+import TagFilter from '@/components/blog/tag-filter';
+import type {TagSummary} from '@/components/blog/tag-filter';
+import BlogLayout from '@/layouts/blog-layout';
+import type {BlogSeo} from '@/layouts/blog-layout';
+import { toPath } from '@/lib/utils';
 import { index as blogIndex } from '@/routes/blog';
 
 interface Props {
@@ -19,7 +23,7 @@ export default function BlogTag({ tag, posts, tags, seo }: Props) {
         <BlogLayout seo={seo}>
             <section className="border-b border-[#2b4680]/20 py-20">
                 <Link
-                    href={blogIndex.url()}
+                    href={toPath(blogIndex.url())}
                     className="mb-6 inline-flex items-center gap-2 text-sm text-[#91aaeb] transition-colors hover:text-[#06b77f]"
                 >
                     <ArrowLeft size={15} />

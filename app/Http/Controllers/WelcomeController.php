@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
@@ -30,31 +31,48 @@ class WelcomeController extends Controller
 
     public function index(): Response
     {
+        $siteName = 'Marijan Kopčić';
+        $seoTitle = 'Marijan Kopčić | Lead Laravel & Backend Engineer, DevOps';
+        $seoDescription = 'Lead Laravel & backend engineer with 15+ years in production: application architecture, '
+            .'data, deployment, security and infrastructure. Available for remote work.';
+        $seoUrl = config('app.url');
+        $personId = rtrim((string) $seoUrl, '/').'/#person';
+        $websiteId = rtrim((string) $seoUrl, '/').'/#website';
+
         $websiteSchema = Schema::webSite()
-            ->name(config('app.name'))
-            ->url(config('app.url'));
+            ->setProperty('@id', $websiteId)
+            ->name($siteName)
+            ->url($seoUrl)
+            ->publisher(['@id' => $personId]);
 
         $personSchema = Schema::person()
+            ->setProperty('@id', $personId)
             ->name('Marijan Kopčić')
-            ->jobTitle('Lead Full-Stack Developer & DevOps Engineer')
-            ->url(config('app.url'))
-            ->knowsAbout(['Laravel', 'PHP', 'React', 'TypeScript', 'DevOps', 'Docker', 'AI/MCP'])
+            ->jobTitle('Lead Laravel & Backend Engineer')
+            ->url($seoUrl)
+            ->knowsAbout([
+                'Laravel', 'PHP', 'Backend Architecture', 'PostgreSQL', 'MySQL', 'Redis', 'Queues',
+                'Production Engineering', 'Linux', 'Nginx', 'DevOps', 'CI/CD', 'Docker', 'Security',
+                'Legacy Modernization', 'Multi-tenancy', 'AI/MCP',
+            ])
             ->description(
-                'Full-stack developer and DevOps engineer with 15+ years of experience '
-                .'building production-grade web applications, SaaS platforms, and cloud infrastructure.'
+                'Lead Laravel & backend engineer with 15+ years of experience designing, shipping and operating '
+                .'production systems, from application architecture and data to deployment, security and infrastructure.'
             )
             ->sameAs(array_values(array_filter(config('seo.social'))));
 
-        $seoTitle = 'Marijan Kopčić | Lead Laravel & DevOps Engineer';
-        $seoDescription = '15+ years building SaaS platforms, AI integrations, and cloud infrastructure. '
-            .'Available for remote Laravel & DevOps projects.';
-        $seoUrl = config('app.url');
+        $profilePageSchema = Schema::profilePage()
+            ->name($seoTitle)
+            ->url($seoUrl)
+            ->isPartOf(['@id' => $websiteId])
+            ->mainEntity($personSchema);
 
         SEOMeta::setTitle($seoTitle, false)
             ->setDescription($seoDescription)
             ->setCanonical($seoUrl);
 
         OpenGraph::setTitle($seoTitle)
+            ->setSiteName($siteName)
             ->setDescription($seoDescription)
             ->setUrl($seoUrl)
             ->addProperty('type', 'website')
@@ -68,13 +86,13 @@ class WelcomeController extends Controller
         $websiteArray = $websiteSchema->toArray();
         unset($websiteArray['@context']);
 
-        $personArray = $personSchema->toArray();
-        unset($personArray['@context']);
+        $profilePageArray = $profilePageSchema->toArray();
+        unset($profilePageArray['@context']);
 
         return Inertia::render('welcome', [
             'canRegister' => Features::enabled(Features::registration()),
-            'documents' => $this->documents(),
             'honeypot' => $this->honeypot->toArray(),
+            'latestPosts' => $this->latestPosts(),
             'seo' => [
                 'title' => $seoTitle,
                 'description' => $seoDescription,
@@ -82,9 +100,29 @@ class WelcomeController extends Controller
             ],
             'schemaJson' => json_encode([
                 '@context' => 'https://schema.org',
-                '@graph' => [$websiteArray, $personArray],
+                '@graph' => [$websiteArray, $profilePageArray],
             ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
         ]);
+    }
+
+    /**
+     * The newest blog posts, linked from the portfolio to the blog host.
+     *
+     * @return array<int, array{title: string, excerpt: ?string, url: string, publishedAt: ?string}>
+     */
+    protected function latestPosts(): array
+    {
+        return Post::query()
+            ->latest()
+            ->limit(3)
+            ->get(['title', 'slug', 'excerpt', 'created_at'])
+            ->map(fn (Post $post): array => [
+                'title' => $post->title,
+                'excerpt' => $post->excerpt,
+                'url' => 'https://'.config('blog.domain').'/'.$post->slug,
+                'publishedAt' => $post->created_at?->toIso8601String(),
+            ])
+            ->all();
     }
 
     public function document(string $document): BinaryFileResponse
@@ -92,22 +130,5 @@ class WelcomeController extends Controller
         abort_unless(array_key_exists($document, self::DOCUMENTS), 404);
 
         return response()->file(base_path('docs/'.$document));
-    }
-
-    /**
-     * The downloadable documents offered on the portfolio page.
-     *
-     * @return array<int, array{name: string, type: string, url: string}>
-     */
-    protected function documents(): array
-    {
-        return collect(self::DOCUMENTS)
-            ->map(fn (array $document, string $file): array => [
-                'name' => $document['name'],
-                'type' => $document['type'],
-                'url' => rtrim((string) config('app.url'), '/').'/docs/'.$file,
-            ])
-            ->values()
-            ->all();
     }
 }

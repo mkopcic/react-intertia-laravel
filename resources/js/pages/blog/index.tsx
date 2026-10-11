@@ -1,9 +1,12 @@
 import { FileText } from 'lucide-react';
 
 import type { PostSummary } from '@/components/blog/post-card';
-import PostGrid, { type Paginated } from '@/components/blog/post-grid';
-import TagFilter, { type TagSummary } from '@/components/blog/tag-filter';
-import BlogLayout, { type BlogSeo } from '@/layouts/blog-layout';
+import PostGrid from '@/components/blog/post-grid';
+import type {Paginated} from '@/components/blog/post-grid';
+import TagFilter from '@/components/blog/tag-filter';
+import type {TagSummary} from '@/components/blog/tag-filter';
+import BlogLayout from '@/layouts/blog-layout';
+import type {BlogSeo} from '@/layouts/blog-layout';
 
 interface DocumentLink {
     name: string;

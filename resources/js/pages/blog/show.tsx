@@ -1,7 +1,10 @@
 import { Link } from '@inertiajs/react';
-import { ArrowLeft, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock } from 'lucide-react';
 
-import BlogLayout, { type BlogSeo } from '@/layouts/blog-layout';
+import SocialLinks from '@/components/social-links';
+import BlogLayout from '@/layouts/blog-layout';
+import type {BlogSeo} from '@/layouts/blog-layout';
+import { toPath } from '@/lib/utils';
 import { index as blogIndex, post as postRoute, tag as tagRoute } from '@/routes/blog';
 
 interface Props {
@@ -38,7 +41,7 @@ export default function BlogShow({ post, related, seo }: Props) {
         <BlogLayout seo={seo}>
             <article className="py-16">
                 <Link
-                    href={blogIndex.url()}
+                    href={toPath(blogIndex.url())}
                     className="inline-flex items-center gap-2 text-sm text-[#91aaeb] transition-colors hover:text-[#06b77f]"
                 >
                     <ArrowLeft size={15} />
@@ -82,7 +85,7 @@ export default function BlogShow({ post, related, seo }: Props) {
                         {post.tags.map((tag) => (
                             <Link
                                 key={tag.slug}
-                                href={tagRoute.url({ tag: tag.slug })}
+                                href={toPath(tagRoute.url({ tag: tag.slug }))}
                                 className="rounded-full border border-[#2b4680]/30 px-4 py-1.5 text-sm text-[#bdc2ff] transition-colors hover:border-[#06b77f]/50 hover:text-[#06b77f]"
                             >
                                 #{tag.name}
@@ -90,6 +93,32 @@ export default function BlogShow({ post, related, seo }: Props) {
                         ))}
                     </div>
                 )}
+
+                <aside className="mt-12 flex max-w-3xl flex-col gap-6 rounded-2xl border border-[#2b4680]/30 bg-[#05183c] p-8 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="space-y-2">
+                        <p className="text-xs font-bold uppercase tracking-widest text-[#06b77f]">Written by</p>
+                        <a
+                            href="https://marijankopcic.from.hr"
+                            rel="author"
+                            className="block font-['Manrope'] text-xl font-bold text-[#dee5ff] transition-colors hover:text-[#06b77f]"
+                        >
+                            Marijan Kopčić
+                        </a>
+                        <p className="text-sm leading-relaxed text-[#91aaeb]">
+                            Lead Laravel &amp; Backend Engineer. I design, ship, and operate production Laravel systems.
+                        </p>
+                    </div>
+                    <div className="flex shrink-0 flex-col items-start gap-3 sm:items-end">
+                        <a
+                            href="https://marijankopcic.from.hr"
+                            className="flex items-center gap-1.5 rounded-lg bg-[#06b77f] px-4 py-2 text-sm font-medium text-[#001a12] transition-colors hover:bg-[#05a36f]"
+                        >
+                            View portfolio
+                            <ArrowRight size={16} />
+                        </a>
+                        <SocialLinks />
+                    </div>
+                </aside>
             </article>
 
             {related.length > 0 && (
@@ -99,7 +128,7 @@ export default function BlogShow({ post, related, seo }: Props) {
                         {related.map((item) => (
                             <Link
                                 key={item.slug}
-                                href={postRoute.url({ post: item.slug })}
+                                href={toPath(postRoute.url({ post: item.slug }))}
                                 className="group rounded-xl border border-[#2b4680]/20 bg-[#05183c] p-6 transition-colors hover:border-[#06b77f]/40"
                             >
                                 <h3 className="font-['Manrope'] font-bold leading-snug text-[#dee5ff] transition-colors group-hover:text-[#06b77f]">

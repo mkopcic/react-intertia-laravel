@@ -13,7 +13,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\SchemaOrg\Person;
 use Spatie\SchemaOrg\Schema;
+use Spatie\SchemaOrg\WebSite;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -45,7 +47,10 @@ class BlogController extends Controller
         $blogSchema = Schema::blog()
             ->name($title)
             ->description($description)
-            ->url($this->blogUrl());
+            ->url($this->blogUrl())
+            ->author($this->ownerSchema())
+            ->publisher($this->ownerSchema())
+            ->isPartOf($this->portfolioSchema());
 
         return Inertia::render('blog/index', [
             'posts' => $posts,
@@ -98,7 +103,9 @@ class BlogController extends Controller
             ->image($image)
             ->datePublished($post->created_at)
             ->dateModified($post->updated_at)
-            ->author(Schema::person()->name($post->author->name))
+            ->author($this->ownerSchema())
+            ->publisher($this->ownerSchema())
+            ->isPartOf($this->portfolioSchema())
             ->keywords($post->tags->pluck('name')->implode(', '));
 
         return Inertia::render('blog/show', [
@@ -345,6 +352,38 @@ class BlogController extends Controller
             ->setDescription($description)
             ->setType('summary_large_image')
             ->addValue('image', $image);
+    }
+
+    /**
+     * The blog's sole author and publisher, identified by the portfolio,
+     * which is his profile page.
+     */
+    protected function ownerSchema(): Person
+    {
+        return Schema::person()
+            ->setProperty('@id', $this->portfolioUrl().'/#person')
+            ->name('Marijan Kopčić')
+            ->url($this->portfolioUrl())
+            ->sameAs(array_values(array_filter(config('seo.social'))));
+    }
+
+    /**
+     * The portfolio website the blog belongs to.
+     */
+    protected function portfolioSchema(): WebSite
+    {
+        return Schema::webSite()
+            ->setProperty('@id', $this->portfolioUrl().'/#website')
+            ->name('Marijan Kopčić')
+            ->url($this->portfolioUrl());
+    }
+
+    /**
+     * The portfolio's root URL, the main site the blog is part of.
+     */
+    protected function portfolioUrl(): string
+    {
+        return rtrim((string) config('app.url'), '/');
     }
 
     /**

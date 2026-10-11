@@ -13,7 +13,6 @@ class SitemapController extends Controller
         $sitemap = Sitemap::create()
             ->add(
                 Url::create('/')
-                    ->setLastModificationDate(now())
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                     ->setPriority(1.0)
             );

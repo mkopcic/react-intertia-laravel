@@ -1,11 +1,14 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, Download, PenSquare } from 'lucide-react';
+import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, PenSquare } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import AboutSection from '@/components/welcome/about-section';
 import ContactSection from '@/components/welcome/contact-section';
+import SocialLinks from '@/components/social-links';
 import FeaturedProjects from '@/components/welcome/featured-projects';
 import HeroSection from '@/components/welcome/hero-section';
+import LatestPostsSection from '@/components/welcome/latest-posts-section';
+import type { LatestPost } from '@/components/welcome/latest-posts-section';
 import OpenSourceSection from '@/components/welcome/open-source-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
 import { dashboard, login /*, register */ } from '@/routes';
@@ -18,12 +21,6 @@ interface HoneypotData {
     encryptedValidFrom: string;
 }
 
-interface DocumentLink {
-    name: string;
-    type: string;
-    url: string;
-}
-
 interface SeoData {
     title: string;
     description: string;
@@ -33,12 +30,12 @@ interface SeoData {
 export default function Welcome({
     canRegister = true,
     honeypot,
-    documents,
+    latestPosts,
     seo,
 }: {
     canRegister?: boolean;
     honeypot: HoneypotData;
-    documents: DocumentLink[];
+    latestPosts: LatestPost[];
     seo: SeoData;
 }) {
     const { auth, currentTeam } = usePage().props;
@@ -92,9 +89,9 @@ export default function Welcome({
                 <header className="fixed top-0 w-full z-50 bg-[#060e20]/70 backdrop-blur-xl shadow-[0_40px_40px_rgba(222,229,255,0.04)]">
                     <nav className="flex justify-between items-center max-w-7xl mx-auto px-8 py-4 font-['Manrope'] tracking-tight text-sm font-medium">
                         <a href="/" className="text-xl font-bold tracking-tighter text-[#dee5ff] hover:text-[#06b77f] transition-colors">
-                            The Architect
+                            Marijan Kopčić
                         </a>
-                        
+
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -126,6 +123,7 @@ export default function Welcome({
                             </a>
                         </div>
                         <div className="hidden md:flex items-center gap-3">
+                            <SocialLinks className="hidden xl:flex mr-2" />
                             {auth.user ? (
                                 <>
                                     <Link
@@ -165,51 +163,51 @@ export default function Welcome({
                             )}
                         </div>
                     </nav>
-                    
+
                     {/* Mobile Menu */}
                     {mobileMenuOpen && (
                         <div className="md:hidden bg-[#05183c] border-t border-[#2b4680]/20">
                             <div className="max-w-7xl mx-auto px-8 py-6 space-y-4">
-                                <a 
-                                    href="#work" 
+                                <a
+                                    href="#work"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-3 text-[#bdc2ff] font-semibold py-3 border-b border-[#2b4680]/20"
                                 >
                                     <Briefcase size={20} />
                                     Work
                                 </a>
-                                <a 
-                                    href="#experience" 
+                                <a
+                                    href="#experience"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-3 text-[#91aaeb] hover:text-[#bdc2ff] py-3 border-b border-[#2b4680]/20"
                                 >
                                     <Code2 size={20} />
                                     Experience
                                 </a>
-                                <a 
-                                    href="#about" 
+                                <a
+                                    href="#about"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-3 text-[#91aaeb] hover:text-[#bdc2ff] py-3 border-b border-[#2b4680]/20"
                                 >
                                     <User size={20} />
                                     About
                                 </a>
-                                <a 
-                                    href="#contact" 
+                                <a
+                                    href="#contact"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-3 text-[#91aaeb] hover:text-[#bdc2ff] py-3 border-b border-[#2b4680]/20"
                                 >
                                     <Mail size={20} />
                                     Contact
                                 </a>
-                                <a 
+                                <a
                                     href="https://blog.marijankopcic.from.hr"
                                     className="flex items-center gap-3 text-[#91aaeb] hover:text-[#bdc2ff] py-3 border-b border-[#2b4680]/20"
                                 >
                                     <BookOpen size={20} />
                                     Blog
                                 </a>
-                                
+
                                 <div className="pt-4 space-y-2">
                                     {auth.user ? (
                                         <>
@@ -259,33 +257,23 @@ export default function Welcome({
                     <TechStackBento />
                     <FeaturedProjects />
                     <OpenSourceSection />
+                    <LatestPostsSection posts={latestPosts} />
                     <AboutSection />
                     <ContactSection honeypot={honeypot} />
-
-                    <section className="bg-[#000000] py-16" id="documents">
-                        <div className="mx-auto max-w-7xl px-8">
-                            <h2 className="text-center font-['Manrope'] text-sm font-bold tracking-widest text-[#06b77f] uppercase">
-                                Downloads
-                            </h2>
-                            <ul className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-6">
-                                {documents.map((document) => (
-                                    <li key={document.url}>
-                                        <a
-                                            href={document.url}
-                                            className="inline-flex items-center gap-3 rounded-lg border border-[#2b4680]/30 bg-[#05183c] px-4 py-3 text-[#dee5ff] transition-colors hover:border-[#06b77f]/50 hover:text-[#06b77f]"
-                                        >
-                                            <Download size={18} className="text-[#91aaeb]" />
-                                            <span>{document.name}</span>
-                                            <span className="rounded-full border border-[#2b4680]/40 px-2 py-0.5 text-xs text-[#91aaeb]">
-                                                {document.type}
-                                            </span>
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </section>
                 </main>
+
+                <footer className="border-t border-[#2b4680]/20 bg-[#000000]">
+                    <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-[#91aaeb]">
+                        <p>© {new Date().getFullYear()} Marijan Kopčić · Lead Laravel &amp; Backend Engineer</p>
+                        <div className="flex items-center gap-6">
+                            <a href="https://blog.marijankopcic.from.hr" className="flex items-center gap-1.5 transition-colors hover:text-[#bdc2ff]">
+                                <BookOpen size={16} />
+                                Blog
+                            </a>
+                            <SocialLinks />
+                        </div>
+                    </div>
+                </footer>
             </div>
         </>
     );

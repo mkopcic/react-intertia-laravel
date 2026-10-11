@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 
+import { toPath } from '@/lib/utils';
 import { tag as tagRoute } from '@/routes/blog';
 
 export interface TagSummary {
@@ -18,7 +19,7 @@ export default function TagFilter({ tags, activeSlug }: { tags: TagSummary[]; ac
             {tags.map((tag) => (
                 <Link
                     key={tag.slug}
-                    href={tagRoute.url({ tag: tag.slug })}
+                    href={toPath(tagRoute.url({ tag: tag.slug }))}
                     className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
                         tag.slug === activeSlug
                             ? 'border-[#06b77f] bg-[#06b77f]/10 text-[#06b77f]'

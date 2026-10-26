@@ -16,7 +16,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
  * any divergence in `layout` would produce a hydration mismatch.
  */
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    title: (title) => title || appName,
     layout: (name) => {
         switch (true) {
             case name === 'welcome':

@@ -16,7 +16,7 @@ export default function AboutSection() {
                     </p>
                     <p className="text-lg text-[#91aaeb] leading-relaxed">
                         My philosophy centers on{' '}
-                        <span className="text-[#dee5ff] font-semibold">MVC Purity, Security, and Scalability</span>.
+                        <span className="text-[#dee5ff] font-semibold">maintainable architecture, security, and scalability</span>.
                         I leverage Laravel's elegant patterns to solve complex business problems without introducing
                         unnecessary technical debt.
                     </p>

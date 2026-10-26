@@ -35,6 +35,11 @@ Route::get('/email-docs', function () {
     return 'Docs mail poslan na '.$to;
 })->middleware('auth');
 
+// After a submit the browser URL stays on /contact (no redirect), so a
+// refresh or back-navigation issues a GET — send it to the contact section.
+// Route::redirect() would register every verb and shadow the POST below.
+Route::get('/contact', fn () => redirect(route('home').'#contact'));
+
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware(ProtectAgainstSpam::class)
     ->name('contact.store');

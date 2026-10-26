@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function FeaturedProjects() {
@@ -17,7 +17,7 @@ export default function FeaturedProjects() {
                         <div className="lg:col-span-7 rounded-2xl overflow-hidden shadow-2xl bg-[#00225a] group">
                             <img
                                 src="/images/projects/wdr.jpg"
-                                alt="WDR Cloud Platform - Fleet Management SaaS"
+                                alt="WDR Cloud Platform - Bike Leasing SaaS"
                                 className="w-full aspect-video object-cover object-top group-hover:scale-105 transition-transform duration-700"
                                 loading="lazy"
                             />
@@ -28,8 +28,8 @@ export default function FeaturedProjects() {
                             </span>
                             <h3 className="font-['Manrope'] text-3xl font-bold text-[#dee5ff]">WDR Cloud Platform</h3>
                             <p className="text-[#91aaeb] leading-relaxed">
-                                Full-stack SaaS for mobility and fleet management. Features comprehensive vehicle tracking, 
-                                maintenance scheduling, and advanced analytics for enterprise clients. 
+                                Bike leasing platform covering the full leasing lifecycle: fleet management,
+                                document archive, and digital contract signing.
                                 Built with Laravel, Livewire, and multi-tenant architecture.
                             </p>
                             <div className="flex flex-wrap gap-2">
@@ -49,7 +49,7 @@ export default function FeaturedProjects() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
                             >
-                                View Case Study <ArrowRight size={18} />
+                                Visit Live Site <ArrowUpRight size={18} />
                             </a>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ export default function FeaturedProjects() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
                             >
-                                View Case Study <ArrowRight size={18} />
+                                Visit Live Site <ArrowUpRight size={18} />
                             </a>
                         </div>
                         <div className="lg:col-span-7 lg:order-2 order-1 rounded-2xl overflow-hidden shadow-2xl bg-[#00225a] group">
@@ -133,7 +133,7 @@ export default function FeaturedProjects() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-[#06b77f] hover:bg-[#05a370] text-white px-5 py-2.5 rounded-lg font-semibold transition-all hover:gap-4"
                             >
-                                View Case Study <ArrowRight size={18} />
+                                Visit Live Site <ArrowUpRight size={18} />
                             </a>
                         </div>
                     </div>

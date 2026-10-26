@@ -38,25 +38,29 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        $flashData = [
-            'success' => $request->session()->get('success'),
-            'error' => $request->session()->get('error'),
-            'warning' => $request->session()->get('warning'),
-            'info' => $request->session()->get('info'),
-        ];
-
-        // Log only when there are actual flash messages
-        if (array_filter($flashData)) {
-            Log::info('HandleInertiaRequests::share - Flash messages', $flashData);
-        }
-
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
                 'user' => $user,
             ],
-            'flash' => $flashData,
+            // Lazy: share() runs before the controller, so a message set with
+            // session()->now() in a controller would otherwise be missed.
+            'flash' => function () use ($request): array {
+                $flashData = [
+                    'success' => $request->session()->get('success'),
+                    'error' => $request->session()->get('error'),
+                    'warning' => $request->session()->get('warning'),
+                    'info' => $request->session()->get('info'),
+                ];
+
+                // Log only when there are actual flash messages
+                if (array_filter($flashData)) {
+                    Log::info('HandleInertiaRequests::share - Flash messages', $flashData);
+                }
+
+                return $flashData;
+            },
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'currentTeam' => fn () => $user?->currentTeam ? $user->toUserTeam($user->currentTeam) : null,
             'teams' => fn () => $user?->toUserTeams(includeCurrent: true) ?? [],

@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Briefcase, Code2, User, Mail, LogIn, UserPlus, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, PenSquare } from 'lucide-react';
+import { Briefcase, Code2, User, Mail, LayoutDashboard, Menu, X, CheckCircle, XCircle, BookOpen, PenSquare } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import AboutSection from '@/components/welcome/about-section';
@@ -11,7 +11,7 @@ import LatestPostsSection from '@/components/welcome/latest-posts-section';
 import type { LatestPost } from '@/components/welcome/latest-posts-section';
 import OpenSourceSection from '@/components/welcome/open-source-section';
 import TechStackBento from '@/components/welcome/tech-stack-bento';
-import { dashboard, login /*, register */ } from '@/routes';
+import { dashboard } from '@/routes';
 import { index as postsIndex } from '@/routes/posts';
 
 interface HoneypotData {
@@ -124,7 +124,7 @@ export default function Welcome({
                         </div>
                         <div className="hidden md:flex items-center gap-3">
                             <SocialLinks className="hidden xl:flex mr-2" />
-                            {auth.user ? (
+                            {auth.user && (
                                 <>
                                     <Link
                                         href={postsUrl}
@@ -140,25 +140,6 @@ export default function Welcome({
                                         <LayoutDashboard size={16} />
                                         Dashboard
                                     </Link>
-                                </>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={login()}
-                                        className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
-                                    >
-                                        <LogIn size={16} />
-                                        Log in
-                                    </Link>
-                                    {/* canRegister && (
-                                        <Link
-                                            href={register()}
-                                            className="bg-[#06b77f] text-[#001a12] px-5 py-1.5 rounded-md font-medium text-sm hover:bg-[#05a36f] hover:scale-105 duration-200 ease-in-out transition-all flex items-center gap-1.5"
-                                        >
-                                            <UserPlus size={16} />
-                                            Register
-                                        </Link>
-                                    ) */}
                                 </>
                             )}
                         </div>
@@ -208,8 +189,8 @@ export default function Welcome({
                                     Blog
                                 </a>
 
-                                <div className="pt-4 space-y-2">
-                                    {auth.user ? (
+                                {auth.user && (
+                                    <div className="pt-4 space-y-2">
                                         <>
                                             <Link
                                                 href={postsUrl}
@@ -226,27 +207,8 @@ export default function Welcome({
                                                 Dashboard
                                             </Link>
                                         </>
-                                    ) : (
-                                        <>
-                                            <Link
-                                                href={login()}
-                                                className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
-                                            >
-                                                <LogIn size={18} />
-                                                Log in
-                                            </Link>
-                                            {/* canRegister && (
-                                                <Link
-                                                    href={register()}
-                                                    className="flex items-center justify-center gap-2 w-full bg-[#06b77f] text-[#001a12] px-4 py-2 rounded-lg font-medium text-sm"
-                                                >
-                                                    <UserPlus size={18} />
-                                                    Register
-                                                </Link>
-                                            ) */}
-                                        </>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

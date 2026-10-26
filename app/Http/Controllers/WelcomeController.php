@@ -50,6 +50,7 @@ class WelcomeController extends Controller
             ->name('Marijan Kopčić')
             ->jobTitle('Lead Laravel & Backend Engineer')
             ->url($seoUrl)
+            ->image($seoUrl.'/images/marijan-kopcic.jpg')
             ->knowsAbout([
                 'Laravel', 'PHP', 'Backend Architecture', 'PostgreSQL', 'MySQL', 'Redis', 'Queues',
                 'Production Engineering', 'Linux', 'Nginx', 'DevOps', 'CI/CD', 'Docker', 'Security',

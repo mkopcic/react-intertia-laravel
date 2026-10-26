@@ -1,4 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Redirect www to the bare domain before the rewrite into public/,
+    # so the original path is kept.
+    RewriteCond %{HTTP_HOST} ^www\.marijankopcic\.from\.hr$ [NC]
+    RewriteRule ^(.*)$ https://marijankopcic.from.hr/$1 [L,R=301]
+
     RewriteRule ^(?!public/)(.*)$ public/$1 [L]
 </IfModule>

@@ -1,4 +1,4 @@
-import { Facebook, Github, Linkedin } from 'lucide-react';
+import { /* Facebook, */ Github, Linkedin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -12,7 +12,7 @@ interface SocialLink {
 export const SOCIAL_LINKS: SocialLink[] = [
     { name: 'GitHub', url: 'https://github.com/mkopcic', icon: Github },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/marijan-kopcic/', icon: Linkedin },
-    { name: 'Facebook', url: 'https://www.facebook.com/marijan.kopcic/', icon: Facebook },
+    // { name: 'Facebook', url: 'https://www.facebook.com/marijan.kopcic/', icon: Facebook },
 ];
 
 /**

@@ -19,7 +19,7 @@ export default function HeroSection() {
                 <div className="lg:col-span-8 space-y-8">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#05183c] border border-[#2b4680]/20 text-[#06b77f] text-xs font-bold tracking-widest uppercase">
                         <span className="w-2 h-2 rounded-full bg-[#06b77f] animate-pulse"></span>
-                        Available for Lead Roles
+                        Open to Lead Roles &amp; Projects
                     </div>
                     <h1 className="font-['Manrope'] font-extrabold tracking-tighter text-[#dee5ff]">
                         <span className="block text-6xl md:text-8xl leading-[0.9]">Marijan Kopčić</span>
@@ -40,7 +40,7 @@ export default function HeroSection() {
                         <a href="#contact">
                             <Button className="bg-[#06b77f] text-[#001a12] px-6 py-2.5 rounded-lg font-semibold text-base shadow-lg shadow-[#06b77f]/20 hover:bg-[#05a36f] hover:scale-105 transition-all h-auto">
                                 <ArrowRight className="mr-2" size={18} />
-                                Start a Project
+                                Get in Touch
                             </Button>
                         </a>
                         <a href="#work">

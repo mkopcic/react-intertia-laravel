@@ -20,7 +20,8 @@ class ContactController extends Controller
      * header, which makes Inertia treat the follow-up as a non-Inertia
      * response and render it in its raw-response fallback dialog — this is
      * what caused the page to visibly render twice after submitting. The
-     * client shows its own success confirmation once this request resolves.
+     * success message is flashed for this request only (no redirect follows),
+     * and the welcome page shows it as a toast.
      */
     public function store(ContactRequest $request): Response
     {
@@ -34,6 +35,8 @@ class ContactController extends Controller
         Mail::to(config('mail.from.address'))->send(
             new ContactMail($validated['name'], $validated['email'], $validated['message'])
         );
+
+        $request->session()->now('success', 'Your message has been sent. I will respond within 24 hours.');
 
         return $this->welcomeController->index();
     }

@@ -37,7 +37,19 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-        {!! SEOMeta::generate() !!}
+        {{--
+            With SSR the Inertia head already carries the page <title>, so the
+            SEOMeta one is dropped to avoid serving two. Without an SSR title
+            (SSR down, or a page without <Head title>) the SEOMeta one stays.
+        --}}
+        @php
+            $seoMeta = SEOMeta::generate();
+
+            if (str_contains(app(\Inertia\Ssr\SsrState::class)->dispatch()?->head ?? '', '<title')) {
+                $seoMeta = preg_replace('#<title[^>]*>.*?</title>#s', '', $seoMeta, 1);
+            }
+        @endphp
+        {!! $seoMeta !!}
         {!! OpenGraph::generate() !!}
         {!! Twitter::generate() !!}
 

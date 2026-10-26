@@ -13,6 +13,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\SchemaOrg\BreadcrumbList;
+use Spatie\SchemaOrg\ListItem;
 use Spatie\SchemaOrg\Person;
 use Spatie\SchemaOrg\Schema;
 use Spatie\SchemaOrg\WebSite;
@@ -22,6 +24,12 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BlogController extends Controller
 {
+    /**
+     * The blog host's own site name, shared by its WebSite schema and
+     * og:site_name so Google reads one consistent name for the subdomain.
+     */
+    private const SITE_NAME = 'Marijan Kopčić Blog';
+
     /**
      * Files under the project's docs/ directory that the blog links to.
      *
@@ -50,14 +58,14 @@ class BlogController extends Controller
             ->url($this->blogUrl())
             ->author($this->ownerSchema())
             ->publisher($this->ownerSchema())
-            ->isPartOf($this->portfolioSchema());
+            ->isPartOf(['@id' => $this->blogUrl('/#website')]);
 
         return Inertia::render('blog/index', [
             'posts' => $posts,
             'tags' => $this->tagList(),
             'documents' => $this->documents(),
             'seo' => ['title' => $title, 'description' => $description, 'url' => $canonical],
-            'schemaJson' => $this->schemaJson([$blogSchema->toArray()]),
+            'schemaJson' => $this->schemaJson([$this->blogWebsiteSchema()->toArray(), $blogSchema->toArray()]),
         ]);
     }
 
@@ -105,8 +113,13 @@ class BlogController extends Controller
             ->dateModified($post->updated_at)
             ->author($this->ownerSchema())
             ->publisher($this->ownerSchema())
-            ->isPartOf($this->portfolioSchema())
+            ->isPartOf($this->blogWebsiteSchema())
             ->keywords($post->tags->pluck('name')->implode(', '));
+
+        $breadcrumbSchema = $this->breadcrumbSchema([
+            'Blog' => $this->blogUrl(),
+            $post->title => $url,
+        ]);
 
         return Inertia::render('blog/show', [
             'post' => [
@@ -126,7 +139,7 @@ class BlogController extends Controller
             ],
             'related' => $this->relatedPosts($post),
             'seo' => ['title' => $title, 'description' => $description, 'url' => $url],
-            'schemaJson' => $this->schemaJson([$postSchema->toArray()]),
+            'schemaJson' => $this->schemaJson([$postSchema->toArray(), $breadcrumbSchema->toArray()]),
         ]);
     }
 
@@ -142,12 +155,23 @@ class BlogController extends Controller
         $this->applySeo($title, $description, $canonical, '/og-image.jpg');
         $this->applyPaginationLinks($posts);
 
+        $collectionSchema = Schema::collectionPage()
+            ->name($title)
+            ->description($description)
+            ->url($canonical)
+            ->isPartOf($this->blogWebsiteSchema());
+
+        $breadcrumbSchema = $this->breadcrumbSchema([
+            'Blog' => $this->blogUrl(),
+            $tag->name => $url,
+        ]);
+
         return Inertia::render('blog/tag', [
             'tag' => ['name' => $tag->name, 'slug' => $tag->slug],
             'posts' => $posts,
             'tags' => $this->tagList(),
             'seo' => ['title' => $title, 'description' => $description, 'url' => $canonical],
-            'schemaJson' => null,
+            'schemaJson' => $this->schemaJson([$collectionSchema->toArray(), $breadcrumbSchema->toArray()]),
         ]);
     }
 
@@ -332,6 +356,7 @@ class BlogController extends Controller
             ->setCanonical($url);
 
         OpenGraph::setTitle($title)
+            ->setSiteName(self::SITE_NAME)
             ->setDescription($description)
             ->setUrl($url)
             ->addProperty('type', $type)
@@ -364,7 +389,41 @@ class BlogController extends Controller
             ->setProperty('@id', $this->portfolioUrl().'/#person')
             ->name('Marijan Kopčić')
             ->url($this->portfolioUrl())
+            ->image($this->portfolioUrl().'/images/marijan-kopcic.jpg')
             ->sameAs(array_values(array_filter(config('seo.social'))));
+    }
+
+    /**
+     * The blog host as a website of its own. Google reads a subdomain's site
+     * name from the WebSite on its home page, so the blog needs one rather
+     * than only pointing at the portfolio's.
+     */
+    protected function blogWebsiteSchema(): WebSite
+    {
+        return Schema::webSite()
+            ->setProperty('@id', $this->blogUrl('/#website'))
+            ->name(self::SITE_NAME)
+            ->url($this->blogUrl())
+            ->publisher(['@id' => $this->portfolioUrl().'/#person'])
+            ->isPartOf($this->portfolioSchema());
+    }
+
+    /**
+     * Build a breadcrumb trail from an ordered map of names to URLs.
+     *
+     * @param  array<string, string>  $crumbs
+     */
+    protected function breadcrumbSchema(array $crumbs): BreadcrumbList
+    {
+        return Schema::breadcrumbList()->itemListElement(
+            collect($crumbs)
+                ->keys()
+                ->map(fn (string $name, int $index): ListItem => Schema::listItem()
+                    ->position($index + 1)
+                    ->name($name)
+                    ->item($crumbs[$name]))
+                ->all()
+        );
     }
 
     /**

@@ -10,6 +10,8 @@ Izvori: ChatGPT plan redizajna, Cowork pregled sadržaja/HTML-a, provjera u kodu
 - Faza 1 je gotova i na produkciji, osim točke 7, koja čeka da preimenuješ repo na GitHubu.
 - SEO zahvat istog dana (www redirect, site name, schema, breadcrumbs, dupli title) dokumentiran je u [fixes/2026-10-26-seo-schema-www.md](fixes/2026-10-26-seo-schema-www.md).
 - Faze 2 i 3 nisu započete.
+- Blog, stranica posta: cover slika smanjena je na `max-w-xl` (576 px) umjesto pune širine (`resources/js/pages/blog/show.tsx`). Covere su OG kartice 1200×630 s jednom ključnom riječi u golemom fontu ("Enums", "N+1"). Preko cijele širine bile su veće od `h1` i gurale tekst ispod prvog ekrana.
+- Blog, grid postova (index i tag): na `lg` 3 stupca umjesto 2 (`resources/js/components/blog/post-grid.tsx`). Covere su zato oko trećinu manje, a slika se ne reže.
 
 ---
 

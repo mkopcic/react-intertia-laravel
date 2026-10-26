@@ -67,11 +67,16 @@ export default function BlogShow({ post, related, seo }: Props) {
                     </div>
                 </header>
 
+                {/*
+                    Covers are 1200×630 title cards with one huge keyword, so
+                    they stay narrower than the text column; full width they
+                    dwarfed the h1 and pushed the text below the fold.
+                */}
                 {post.coverUrl && (
                     <img
                         src={post.coverUrl}
                         alt={post.title}
-                        className="mt-12 w-full rounded-2xl border border-[#2b4680]/20 object-cover shadow-2xl"
+                        className="mt-10 w-full max-w-xl rounded-2xl border border-[#2b4680]/20 object-cover shadow-2xl"
                     />
                 )}
 
